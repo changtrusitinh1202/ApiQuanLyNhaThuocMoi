@@ -6,9 +6,17 @@ namespace ApiQuanLyNhaThuoc.Controllers
     public class TestController : Controller
     {
         [HttpGet]
-        public string GetHihi()
+        public IActionResult GetHihi()
         {
-            return "kkkkk";
+            Random random = new Random();
+            List<string> list = new List<string>();
+            for(int i = 0; i < 10; i++)
+            {
+                string date = "HDDHHH" + System.DateTime.Now.ToString("ddMMyyyyhhmmss") + random.Next(1000,9999);
+                list.Add(date);
+            }
+          
+            return Ok(list);
         }
     }
 }

@@ -8,8 +8,7 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
         [Key]
         [ForeignKey("AppUser")]
         public string Id { get; set; }
-     
-        public virtual AppUser AppUser { get; set; }
+        public AppUser AppUser { get; private set; }
 
     }
 }

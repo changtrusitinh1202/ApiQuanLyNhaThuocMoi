@@ -7,7 +7,7 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
     public class NhaCungCap : CommonAbtract
     {
         [Key]     
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         [Required]
         [StringLength(70)]
         public string TenNhaCungCap { get; set; }
@@ -36,5 +36,6 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
         [JsonIgnore]
         public ICollection<HoaDonNhapHang>? HoaDonNhapHangs { get; set; }
 
+       
     }
 }

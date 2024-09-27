@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiQuanLyNhaThuoc.Models.Abstract;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 {
-    public class KhoHang
+    public class KhoHang : CommonAbtract
     {
-        
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
-        public string ViTriLuuTru {  get; set; }
+        [Required]
+        public string ViTriLuuTru { get; set; }
 
         [JsonIgnore]
         public ICollection<LoHang>? LoHangs { get; set; }
@@ -23,5 +24,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [JsonIgnore]
         public ICollection<HangTonKho>? HangTonKhos { get; set; }
 
+       
     }
 }

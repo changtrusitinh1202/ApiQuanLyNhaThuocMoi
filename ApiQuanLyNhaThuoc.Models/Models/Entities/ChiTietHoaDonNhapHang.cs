@@ -12,29 +12,28 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     public class ChiTietHoaDonNhapHang
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public double SoLuongNhap { get; set; }
         [Required]
         [ForeignKey("HoaDonNhapHang")]
-        public Guid HoaDonNhapHangId { get; set; }
+        public string HoaDonNhapHangId { get; set; }
         [JsonIgnore]
-
         public HoaDonNhapHang? HoaDonNhapHang { get; private set; }
         [Required]
         [ForeignKey("PhienBanSanPham")]
-        public Guid PhienBanSanPhamId { get; set; }
+        public string PhienBanSanPhamId { get; set; }
         [JsonIgnore]
         public PhienBanSanPham? PhienBanSanPham { get; private set; }
 
         [Required]
         [ForeignKey("LoHang")]
-        public Guid LoHangId { get; set; }
+        public string LoHangId { get; set; }
         public LoHang? LoHang { get;  set; }
 
         [Required]
         public decimal Gia { get; set; }
 
-       
+     
     }
 }

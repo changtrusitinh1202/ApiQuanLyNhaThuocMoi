@@ -11,18 +11,18 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
     public interface IHoaDonDatHangService
     {
         void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang);
-        HoaDonDatHang GetHoaDonDatHangById(Guid guid);
-        void CapNhatTrangThaiDonDatHang(Guid hoaDonDatHangId, string trangThai);
-        void CapNhatSoLuongNhapDonDatHang(Guid chiTietHoaDonDatHangId, double soLuongNhap);
+        HoaDonDatHang GetHoaDonDatHangById(string guid);
+        void CapNhatTrangThaiDonDatHang(string hoaDonDatHangId, string trangThai);
+        void CapNhatSoLuongNhapDonDatHang(string chiTietHoaDonDatHangId, double soLuongNhap);
         List<HoaDonDatHang> GetHoaDonDatHangs();
         List<HoaDonDatHang> GetHoaDonDatHangsHoanThanh();
         List<HoaDonDatHang> GetHoaDonDatHangsChuaNhap();
         List<HoaDonDatHang> GetHoaDonDatHangsNhapMotPhan();
-        double GetSoLuongDat(Guid hoaDonDatHangId);
-        double GetSoLuongDatChiTiet(Guid hoaDonDatHangId, Guid phienBanSanPhamId);
-        double GetSoLuongDaNhapChiTiet(Guid hoaDonDatHangId, Guid phienBanSanPhamId);
-        double GetSoLuongDatChiTietConLai(Guid hoaDonDatHangId, Guid phienBanSanPhamId);
-        ChiTietHoaDonDatHang GetChiTietHoaDonDatHangFromDonNhapHang(Guid hoaDonDatHangId, Guid phienBanSanPhamId);
+        double GetSoLuongDat(string hoaDonDatHangId);
+        double GetSoLuongDatChiTiet(string hoaDonDatHangId, string phienBanSanPhamId);
+        double GetSoLuongDaNhapChiTiet(string hoaDonDatHangId, string phienBanSanPhamId);
+        double GetSoLuongDatChiTietConLai(string hoaDonDatHangId, string phienBanSanPhamId);
+        ChiTietHoaDonDatHang GetChiTietHoaDonDatHangFromDonNhapHang(string hoaDonDatHangId, string phienBanSanPhamId);
 
     }
 }

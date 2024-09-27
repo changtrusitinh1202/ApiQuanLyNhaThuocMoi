@@ -14,10 +14,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     {
 
         [Key]
-        public Guid Id { get; set; }
-
-        [Required]
-        public string MaLoHang { get; set; }
+        public string Id { get; set; }
 
         public DateTime NgaySanXuat { get; set; }
         [Required]
@@ -28,21 +25,24 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         [Required]
         [ForeignKey("PhienBanSanPham")]
-        public Guid PhienBanSanPhamId { get; set; }
+        public string PhienBanSanPhamId { get; set; }
+
         [JsonIgnore]
         public PhienBanSanPham? PhienBanSanPham { get; private set; }
 
 
         [Required]
         [ForeignKey("NhaCungCap")]
-        public Guid NhaCungCapId { get; set; }
+        public string NhaCungCapId { get; set; }
         [JsonIgnore]
         public NhaCungCap? NhaCungCap { get; private set; }
 
         [Required]
         [ForeignKey("KhoHang")]
-        public Guid KhoHangId { get; set; }
+        public string KhoHangId { get; set; }
         [JsonIgnore]
         public KhoHang? KhoHang { get; private set; }
+
+     
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,29 +9,93 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace ApiQuanLyNhaThuoc.Business.Service
 {
     public class SanPhamService : ISanPhamService
     {
         ApplicationDbContext db;
+
         public SanPhamService(ApplicationDbContext db)
         {
             this.db = db;
-        }
-   
 
-        public void AddSanPham(SanPham sanPham)
+        }
+
+
+        public void AddSanPham(SanPhamDTO sanPhamDTO)
         {
-            sanPham.Id = Guid.NewGuid();
-            foreach (var phienBan in sanPham.DanhSachPhienBan) // method này thêm 1 phiên bản mặc định lúc đầu khi thêm thuốc
+            var sanPham = new SanPham();
+            sanPham.Id = GenerateId.TaoMaSanPham();
+
+
+            sanPham.MaThuoc = sanPhamDTO.MaThuoc;
+            sanPham.TenSanPham = sanPhamDTO.TenSanPham;
+            sanPham.MaVach = sanPhamDTO.MaVach;
+            sanPham.SoDangKy = sanPhamDTO.SoDangKy;
+            sanPham.DonViTinhNhoNhat = sanPhamDTO.DonViTinhNhoNhat;
+            sanPham.QuyCachDongGoi = sanPhamDTO.QuyCachDongGoi;
+            sanPham.LoaiThuoc = sanPhamDTO.LoaiThuoc;
+            sanPham.HoatChatChinh = sanPhamDTO.HoatChatChinh;
+            sanPham.HangSanXuat = sanPhamDTO.HangSanXuat;
+            sanPham.TrangThaiBan = sanPhamDTO.TrangThaiBan;
+            sanPham.NuocSanXuat = sanPhamDTO.NuocSanXuat;
+            sanPham.DuongDung = sanPhamDTO.DuongDung;
+            sanPham.DanhMucId = sanPhamDTO.DanhMucId;
+            sanPham.DanhSachPhienBan = new List<PhienBanSanPham>();
+            sanPham.AnhSanPham = "default.jpg";
+            sanPham.CreatedBy = "Gia Huy";
+            sanPham.CreatedDate = DateTime.Now;
+            sanPham.ModifiedDate = DateTime.Now;
+
+
+
+            foreach (var pb in sanPhamDTO.DanhSachPhienBan)
             {
-                phienBan.Id = Guid.NewGuid();
-                phienBan.SanPhamId = sanPham.Id; // Gắn ID sản phẩm cho phiên bản sản phẩm
-                phienBan.TenQuyDoi = sanPham.TenSanPham + " - Mặc định";
-                phienBan.DonViQuyDoi = sanPham.DonViTinhNhoNhat;
-                phienBan.MaVach = sanPham.MaVach;
-                phienBan.SoLuong = 1;
+                if(pb.TenQuyDoi.Contains("Mặc định"))
+                {
+
+                   sanPham.DanhSachPhienBan.Add(new PhienBanSanPham
+                   {
+                        Id = GenerateId.TaoMaPhienBanSanPham(),
+
+                        TenQuyDoi = sanPham.TenSanPham + "- Mặc định",
+                        DonViQuyDoi = pb.DonViQuyDoi,
+                        MaSanPham = sanPham.MaThuoc,
+                        SoLuong = pb.SoLuong,
+                        MaVach = sanPham.MaVach,
+                        GiaNhapQuyDoi = pb.GiaNhapQuyDoi,
+                        GiaBanQuyDoi = pb.GiaBanQuyDoi,
+                        KhoiLuong = pb.KhoiLuong,
+                        SanPhamId = sanPham.Id,
+                        CreatedBy = "Gia Huy",
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now
+                    });               
+                }
+                else
+                {
+                    sanPham.DanhSachPhienBan.Add(new PhienBanSanPham
+                    {
+                        Id = GenerateId.TaoMaPhienBanSanPham(),
+
+                        TenQuyDoi = sanPham.TenSanPham + " - " + pb.DonViQuyDoi,
+                        DonViQuyDoi = pb.DonViQuyDoi,
+                        MaSanPham = sanPham.MaThuoc,
+                        SoLuong = pb.SoLuong,
+                        MaVach = sanPham.MaVach,
+                        GiaNhapQuyDoi = pb.GiaNhapQuyDoi,
+                        GiaBanQuyDoi = pb.GiaBanQuyDoi,
+                        KhoiLuong = pb.KhoiLuong,
+                        SanPhamId = sanPham.Id,
+                        CreatedBy = "Gia Huy",
+                        CreatedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now
+                    });
+                }
+
+               
             }
             db.SanPham.Add(sanPham);
             db.SaveChanges();
@@ -43,17 +108,17 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                                         .Include(sp => sp.DanhMuc)
                                         .Include(sp => sp.DanhSachPhienBan)
                                         .ToList();
-                                
+
             return sanPhams;
         }
 
- 
-        public SanPham GetSanPhamById(Guid id)
+
+        public SanPham GetSanPhamById(string id)
         {
             SanPham? sanPham = db.SanPham
                                     .Include(sp => sp.DanhMuc)
                                     .Include(sp => sp.DanhSachPhienBan)
-                                    .FirstOrDefault(sp => sp.Id == id);
+                                    .FirstOrDefault(sp => sp.MaThuoc == id);
             return sanPham;
         }
 

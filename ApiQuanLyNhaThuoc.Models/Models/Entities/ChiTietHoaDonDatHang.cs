@@ -13,17 +13,17 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     public class ChiTietHoaDonDatHang
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [ForeignKey("HoaDonDatHang")]
-        public Guid HoaDonDatHangId { get; set; }
+        public string HoaDonDatHangId { get; set; }
         [JsonIgnore]
         public HoaDonDatHang? HoaDonDatHang { get; private set; }
 
         [Required]
         [ForeignKey("PhienBanSanPham")]
-        public Guid PhienBanSanPhamId { get; set; }
+        public string PhienBanSanPhamId { get; set; }
         [JsonIgnore]
         public PhienBanSanPham? PhienBanSanPham { get; private set; }
 
@@ -34,6 +34,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         public decimal Gia { get; set; }
 
-  
+     
     }
 }

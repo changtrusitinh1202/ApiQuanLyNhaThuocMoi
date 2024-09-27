@@ -12,12 +12,13 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
     public class AppUser : IdentityUser
     {
         [Required]
-        public string Name { get; set; }
-        public string? Address { get; set; }
-        public string? City { get; set; }
-        public string? Gender { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-
+        public string Ten { get; set; }
+        public string? DiaChi { get; set; }
+        public string? ThanhPho { get; set; }
+        public bool? GioiTinh { get; set; }
+        public DateTime? NgaySinh { get; set; }
+        [Required]
+        public string Quyen { get; set; }
   
     }
 }

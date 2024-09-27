@@ -1,6 +1,7 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +22,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpPost("AddSanPham")]
-        public IActionResult AddSanPham([FromBody] SanPham sanPham)
+        public IActionResult AddSanPham([FromBody] SanPhamDTO sanPham)
         {
             if (ModelState.IsValid)
             {
@@ -42,7 +43,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpGet("GetSanPham/{sanPhamId}")]
-        public IActionResult GetSanPhamById(Guid sanPhamId)
+        public IActionResult GetSanPhamById(string sanPhamId)
         {
             SanPham sanPham = sanPhamService.GetSanPhamById(sanPhamId);
             return Ok(sanPham);
@@ -56,7 +57,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpPost("UpdateSanPham/{sanPhamId}")]
-        public IActionResult UpdateSanPham(Guid sanPhamId, [FromBody] SanPham sanPhamUpdate)
+        public IActionResult UpdateSanPham(string sanPhamId, [FromBody] SanPham sanPhamUpdate)
         {
             if (ModelState.IsValid) 
             {

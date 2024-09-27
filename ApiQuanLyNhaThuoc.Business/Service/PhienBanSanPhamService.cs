@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace ApiQuanLyNhaThuoc.Business.Service
 {
@@ -22,22 +23,22 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         }
 
 
-        public void AddPhienBanSanPham(PhienBanSanPham phienBanSanPham, Guid sanPhamId)
+        public void AddPhienBanSanPham(PhienBanSanPham phienBanSanPham, string sanPhamId)
         {
             SanPham sanPhamTim = sanPhamService.GetSanPhamById(sanPhamId);
             PhienBanSanPham? phienBanSanPhamMacDinh = sanPhamTim.DanhSachPhienBan
                 .FirstOrDefault(x => x.TenQuyDoi.Contains("Mặc định")); // lấy giá nhập và bán của đơn vị nhỏ nhất (mặc định) 
-            phienBanSanPham.Id = Guid.NewGuid();
+            phienBanSanPham.Id = GenerateId.TaoMaPhienBanSanPham();
             phienBanSanPham.SanPhamId = sanPhamId;
-            phienBanSanPham.TenQuyDoi = sanPhamTim.TenSanPham + " - " + phienBanSanPham.TenQuyDoi;
             phienBanSanPham.DonViQuyDoi = phienBanSanPham.TenQuyDoi;
+            phienBanSanPham.TenQuyDoi = sanPhamTim.TenSanPham + " - " + phienBanSanPham.TenQuyDoi;
             phienBanSanPham.GiaBanQuyDoi = phienBanSanPhamMacDinh.GiaBanQuyDoi * (decimal)phienBanSanPham.SoLuong;
             phienBanSanPham.GiaNhapQuyDoi = phienBanSanPhamMacDinh.GiaNhapQuyDoi * (decimal)phienBanSanPham.SoLuong;    
             db.PhienBanSanPham.Add(phienBanSanPham);
             db.SaveChanges();
         }
 
-        public PhienBanSanPham GetPhienBanSanPhamById(Guid sanPhamId, Guid phienBanSanPhamId)
+        public PhienBanSanPham GetPhienBanSanPhamById(string sanPhamId, string phienBanSanPhamId)
         {
             SanPham sanPhamTim = sanPhamService.GetSanPhamById(sanPhamId);
             if (sanPhamTim != null)
@@ -48,12 +49,12 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return null;
         }
 
-        public void CapNhatTrangThaiBan(Guid phienBanSanPhamId, Guid sanPhamId, int trangThai)
+        public void CapNhatTrangThaiBan(string phienBanSanPhamId, string sanPhamId, int trangThai)
         {
 
         }
 
-        public PhienBanSanPham GetPhienBanSanPhamByPhienBanId(Guid phienBanSanPhamId)
+        public PhienBanSanPham GetPhienBanSanPhamByPhienBanId(string phienBanSanPhamId)
         {
             PhienBanSanPham? phienBanSanPhamTim = db.PhienBanSanPham.FirstOrDefault(x => x.Id == phienBanSanPhamId);
             return phienBanSanPhamTim;

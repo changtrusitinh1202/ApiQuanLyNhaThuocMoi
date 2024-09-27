@@ -20,7 +20,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
 
         [HttpPost("AddHoaDon/{hoaDonDatHangId}")]
-        public IActionResult AddHoaDon([FromBody] HoaDonNhapHang hoaDon, Guid hoaDonDatHangId)
+        public IActionResult AddHoaDon([FromBody] HoaDonNhapHang hoaDon, string hoaDonDatHangId)
         {
             try
             {

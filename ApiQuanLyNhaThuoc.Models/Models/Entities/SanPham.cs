@@ -14,7 +14,7 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
             this.DanhSachPhienBan = new HashSet<PhienBanSanPham>();
         }
         [Key]
-        public Guid Id { get; set; } // mã thuốc duy nhất
+        public string Id { get; set; } // mã thuốc duy nhất
         [Required]
         public string MaThuoc { get; set; }
         [Required]
@@ -38,17 +38,18 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
         public string QuyCachDongGoi { get; set; }
         [Required]
         public string DuongDung {  get; set; }
-        public string AnhSanPham { get; set;}
+        public string? AnhSanPham { get; set;}
         [Required]
-        public int TrangThaiBan { get; set; }
+        public bool TrangThaiBan { get; set; }
 
-        [Required]
         [ForeignKey("DanhMuc")]
-        public Guid DanhMucId { get; set; }
+        public string DanhMucId { get; set; }
         [JsonIgnore]
         public DanhMuc? DanhMuc { get; private set; } //private tránh khi db.SaveChanges() sẽ tự động thêm mới
        
 
-        public ICollection<PhienBanSanPham> DanhSachPhienBan { get; set; } 
+        public ICollection<PhienBanSanPham> DanhSachPhienBan { get; set; }
+
+      
     }
 }

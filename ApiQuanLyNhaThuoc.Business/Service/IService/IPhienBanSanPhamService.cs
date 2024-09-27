@@ -9,9 +9,9 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
 {
     public interface IPhienBanSanPhamService
     {
-        void AddPhienBanSanPham(PhienBanSanPham phienBanSanPham, Guid sanPhamId);
-        PhienBanSanPham GetPhienBanSanPhamById(Guid sanPhamId, Guid phienBanSanPhamId);
-        PhienBanSanPham GetPhienBanSanPhamByPhienBanId(Guid phienBanSanPhamId);
-        void CapNhatTrangThaiBan(Guid phienBanSanPhamId, Guid sanPhamId, int trangThai);
+        void AddPhienBanSanPham(PhienBanSanPham phienBanSanPham, string sanPhamId);
+        PhienBanSanPham GetPhienBanSanPhamById(string sanPhamId, string phienBanSanPhamId);
+        PhienBanSanPham GetPhienBanSanPhamByPhienBanId(string phienBanSanPhamId);
+        void CapNhatTrangThaiBan(string phienBanSanPhamId, string sanPhamId, int trangThai);
     }
 }

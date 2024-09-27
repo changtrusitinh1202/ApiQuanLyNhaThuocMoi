@@ -1,4 +1,5 @@
-﻿using ApiQuanLyNhaThuoc.Models.Entities;
+﻿using ApiQuanLyNhaThuoc.Models.Abstract;
+using ApiQuanLyNhaThuoc.Models.Entities;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 {
-    public class PhienBanSanPham
+    public class PhienBanSanPham : CommonAbtract
     {
         public PhienBanSanPham() 
         {
@@ -23,7 +24,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public string TenQuyDoi { get; set; }
         [Required]
@@ -34,16 +35,17 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         public string MaVach { get; set; }
         [Required]
         public string MaSanPham { get; set; }
+        public string? KhoiLuong { get; set; }
         [Required]
         public decimal GiaNhapQuyDoi { get; set; }
         [Required]
         public decimal GiaBanQuyDoi { get; set; }
         [Required]
-        public int TrangThaiBan { get; set; }
+        public bool TrangThaiBan { get; set; }
 
         [Required]
         [ForeignKey("SanPham")]
-        public Guid SanPhamId { get; set; }
+        public string SanPhamId { get; set; }
         [JsonIgnore]
         public SanPham? SanPham { get; private set; }
 
@@ -57,6 +59,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [JsonIgnore]
         public ICollection<KhoHang> KhoHangs { get; set; }
 
-
+       
     }   
 }

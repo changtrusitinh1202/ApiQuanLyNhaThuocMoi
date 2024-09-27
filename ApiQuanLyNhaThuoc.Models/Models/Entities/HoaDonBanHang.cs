@@ -1,6 +1,5 @@
 ﻿using ApiQuanLyNhaThuoc.Models.Abstract;
 using ApiQuanLyNhaThuoc.Models.Entities;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,31 +11,27 @@ using System.Threading.Tasks;
 
 namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 {
-    public class HoaDonDatHang : CommonAbtract
+    public class HoaDonBanHang : CommonAbtract
     {
-        public HoaDonDatHang() 
-        {
-            this.ChiTietHoaDonDatHangs = new HashSet<ChiTietHoaDonDatHang>();
-            this.HoaDonNhapHangs = new HashSet<HoaDonNhapHang>();
-        }
         [Key]
         public string Id { get; set; }
-        [Required]
-        public DateTime NgayTao { get; set; }
-        public string? TrangThaiNhap { get; set; }
 
         [Required]
-        [ForeignKey("NhaCungCap")]
-        public string NhaCungCapId { get; set; }
+        [ForeignKey("KhachHang")]
+        public string KhachHangId { get; set; }
         [JsonIgnore]
-        public NhaCungCap? NhaCungCap { get; private set; }
-
+        public KhachHang? KhachHang { get; private set; }
         [Required]
         [ForeignKey("NhanVien")]
         public string NhanVienId { get; set; }
         [JsonIgnore]
         public NhanVien? NhanVien { get; private set; }
-
+        [Required]
+        [ForeignKey("KhuyenMai")]
+        public string KhuyenMaiId { get; set; }
+        [JsonIgnore]
+        public KhuyenMai? KhuyenMai { get; private set; }
+        public string? TrangThaiThanhToan { get; set; }
         [Required]
         public decimal TongTien { get; set; }
 
@@ -46,12 +41,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         public decimal ThanhTien { get; set; }
 
-        public ICollection<ChiTietHoaDonDatHang>? ChiTietHoaDonDatHangs { get; set; }
-
-        [JsonIgnore]
-        public ICollection<HoaDonNhapHang>? HoaDonNhapHangs { get; set; }
-
-
-      
+       
     }
 }

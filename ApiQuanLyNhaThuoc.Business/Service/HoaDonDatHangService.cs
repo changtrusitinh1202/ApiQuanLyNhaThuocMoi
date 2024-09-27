@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility;
 
 namespace ApiQuanLyNhaThuoc.Business.Service
 {
@@ -24,24 +25,26 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         }
         public void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang)
         {
-            hoaDonDatHang.Id = Guid.NewGuid();
+            hoaDonDatHang.Id = GenerateId.TaoMaHoaDonDatHang();
             hoaDonDatHang.TrangThaiNhap = TrangThai.ChuaNhap;
             hoaDonDatHang.NgayTao = DateTime.Now;
 
             foreach(var chiTiet in hoaDonDatHang.ChiTietHoaDonDatHangs)
             {
-                chiTiet.Id = Guid.NewGuid();
+                chiTiet.Id = GenerateId.TaoMaChiTietHoaDonDatHang();
                 chiTiet.HoaDonDatHangId = hoaDonDatHang.Id;  
                 PhienBanSanPham phien = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
                 chiTiet.Gia = phien.GiaNhapQuyDoi;
                 hoaDonDatHang.TongTien = hoaDonDatHang.TongTien + (chiTiet.Gia * (decimal)chiTiet.SoLuongDat);
             }
- 
+            hoaDonDatHang.Thue = 0.1;
+            hoaDonDatHang.ThanhTien = hoaDonDatHang.TongTien + (hoaDonDatHang.TongTien * (decimal)hoaDonDatHang.Thue);
+            
             db.HoaDonDatHang.Add(hoaDonDatHang);
             db.SaveChanges();
         }
 
-        public HoaDonDatHang GetHoaDonDatHangById(Guid guid)
+        public HoaDonDatHang GetHoaDonDatHangById(string guid)
         {
             HoaDonDatHang hoaDonDatHang = db.HoaDonDatHang
                 .Include(ct => ct.ChiTietHoaDonDatHangs).FirstOrDefault(x => x.Id == guid);
@@ -78,7 +81,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return hoaDonDatHangs;
         }
 
-        public void CapNhatTrangThaiDonDatHang(Guid hoaDonDatHangId, string trangThai)
+        public void CapNhatTrangThaiDonDatHang(string hoaDonDatHangId, string trangThai)
         {
             HoaDonDatHang hoaDonDatHangUpdate = this.GetHoaDonDatHangById(hoaDonDatHangId);
             if (hoaDonDatHangUpdate == null)
@@ -89,7 +92,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             db.SaveChanges();
         }
 
-        public void CapNhatSoLuongNhapDonDatHang(Guid chiTietHoaDonDatHangId, double soLuongNhap)
+        public void CapNhatSoLuongNhapDonDatHang(string chiTietHoaDonDatHangId, double soLuongNhap)
         {
             ChiTietHoaDonDatHang chiTietHoaDonDatHangFind = db.ChiTietHoaDonDatHang.FirstOrDefault(ct => ct.Id == chiTietHoaDonDatHangId);
             if (chiTietHoaDonDatHangFind == null)
@@ -101,7 +104,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         }
 
 
-        public double GetSoLuongDat(Guid hoaDonDatHangId)
+        public double GetSoLuongDat(string hoaDonDatHangId)
         {
             HoaDonDatHang hoaDonDatHangFind = this.GetHoaDonDatHangById(hoaDonDatHangId);
             double soLuongDat = 0;
@@ -112,7 +115,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return soLuongDat;
         }
 
-        public double GetSoLuongDatChiTiet(Guid hoaDonDatHangId, Guid phienBanSanPhamId)
+        public double GetSoLuongDatChiTiet(string hoaDonDatHangId, string phienBanSanPhamId)
         {
             double soLuongdat = 0;
             HoaDonDatHang hoaDonDatHangFind = this.GetHoaDonDatHangById(hoaDonDatHangId);
@@ -125,7 +128,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return soLuongdat;                     
         }
 
-        public ChiTietHoaDonDatHang GetChiTietHoaDonDatHangFromDonNhapHang(Guid hoaDonDatHangId, Guid phienBanSanPhamId)
+        public ChiTietHoaDonDatHang GetChiTietHoaDonDatHangFromDonNhapHang(string hoaDonDatHangId, string phienBanSanPhamId)
         {
             HoaDonDatHang hoaDonDatHangFind = this.GetHoaDonDatHangById(hoaDonDatHangId);
             ChiTietHoaDonDatHang chiTietHoaDon = hoaDonDatHangFind.ChiTietHoaDonDatHangs
@@ -133,7 +136,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return chiTietHoaDon;
         }
 
-        public double GetSoLuongDatChiTietConLai(Guid hoaDonDatHangId, Guid phienBanSanPhamId)
+        public double GetSoLuongDatChiTietConLai(string hoaDonDatHangId, string phienBanSanPhamId)
         {
             double soLuongConLai = 0;
             HoaDonDatHang hoaDonDatHangFind = this.GetHoaDonDatHangById(hoaDonDatHangId);
@@ -146,7 +149,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return soLuongConLai;
         }
 
-        public double GetSoLuongDaNhapChiTiet(Guid hoaDonDatHangId, Guid phienBanSanPhamId)
+        public double GetSoLuongDaNhapChiTiet(string hoaDonDatHangId, string phienBanSanPhamId)
         {
             double soLuongdat = 0;
             HoaDonDatHang hoaDonDatHangFind = this.GetHoaDonDatHangById(hoaDonDatHangId);

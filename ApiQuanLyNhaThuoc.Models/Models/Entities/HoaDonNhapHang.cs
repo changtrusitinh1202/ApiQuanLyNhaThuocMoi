@@ -1,4 +1,5 @@
-﻿using ApiQuanLyNhaThuoc.Models.Entities;
+﻿using ApiQuanLyNhaThuoc.Models.Abstract;
+using ApiQuanLyNhaThuoc.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,16 +11,15 @@ using System.Threading.Tasks;
 
 namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 {
-    public class HoaDonNhapHang
+    public class HoaDonNhapHang : CommonAbtract
     {
         [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string? TrangThaiThanhToan { get; set; }
-        public DateTime NgayNhapHang { get; set; }
         [Required]
         [ForeignKey("HoaDonDatHang")]
-        public Guid HoaDonDatHangId { get; set; }
+        public string HoaDonDatHangId { get; set; }
         [JsonIgnore]
         public HoaDonDatHang? HoaDonDatHang { get; private set; }
 
@@ -27,19 +27,32 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         public decimal TongTien { get; set; }
 
         [Required]
+        public double Thue { get; set; }
+
+        [Required]
+        public decimal ThanhTien { get; set; }
+
+        [Required]
         [ForeignKey("KhoHang")]
-        public Guid KhoHangId { get; set; }
+        public string KhoHangId { get; set; }
         [JsonIgnore]
         public KhoHang? KhoHang { get; private set; }
 
   
         [ForeignKey("NhaCungCap")]
-        public Guid NhaCungCapId { get; set; }
+        public string NhaCungCapId { get; set; }
         [JsonIgnore]
         public NhaCungCap? NhaCungCap { get; private set; }
 
+        [Required]
+        [ForeignKey("NhanVien")]
+        public string NhanVienId { get; set; }
+        [JsonIgnore]
+        public NhanVien? NhanVien { get; private set; }
 
         public ICollection<ChiTietHoaDonNhapHang> ChiTietHoaDonNhapHangs { get; set; } = new HashSet<ChiTietHoaDonNhapHang>();
+
+     
 
     }
 }

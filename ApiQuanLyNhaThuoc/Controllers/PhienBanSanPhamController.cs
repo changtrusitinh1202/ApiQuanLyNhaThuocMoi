@@ -19,21 +19,21 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpGet("GetPhienBanSanPhamById/{sanPhamId}/{phienBanSanPhamId}")]
-        public IActionResult GetPhienBanSanPham(Guid sanPhamId, Guid phienBanSanPhamId)
+        public IActionResult GetPhienBanSanPham(string sanPhamId, string phienBanSanPhamId)
         {
             PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamById(sanPhamId, phienBanSanPhamId);
             return Ok(phienBanSanPham);
         }
 
         [HttpGet("GetPhienBanSanPhamByPhienBanId/{phienBanSanPhamId}")]
-        public IActionResult GetPhienBanSanPhamByPhienBanId(Guid phienBanSanPhamId)
+        public IActionResult GetPhienBanSanPhamByPhienBanId(string phienBanSanPhamId)
         {
             PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(phienBanSanPhamId);
             return Ok(phienBanSanPham);
         }
 
         [HttpPost("AddPhienBan/{sanPhamId}")]
-        public IActionResult AddPhienBanSanPham([FromBody] PhienBanSanPham phienBanSanPham, Guid sanPhamId)
+        public IActionResult AddPhienBanSanPham([FromBody] PhienBanSanPham phienBanSanPham, string sanPhamId)
         {
             if (ModelState.IsValid)
             {

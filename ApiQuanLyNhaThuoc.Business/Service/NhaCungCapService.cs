@@ -22,7 +22,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             db.SaveChanges();
         }
 
-        public NhaCungCap GetNhaCungCapById(Guid id)
+        public NhaCungCap GetNhaCungCapById(string id)
         {
             NhaCungCap nhaCungCap = db.NhaCungCap.First(x => x.Id == id);
             return nhaCungCap;

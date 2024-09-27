@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using ApiQuanLyNhaThuoc.Models.Abstract;
 namespace ApiQuanLyNhaThuoc.Models.Entities
 {
     public class NhanVien : CommonAbtract
     {
-        public DateTime? HireDate { get; set; } 
-        public string Position { get; set; } 
-        public decimal? Salary { get; set; } 
-
-
+        [Key]
+        [ForeignKey("AppUser")]
+        public string Id { get; set; }
+        public AppUser AppUser { get; set; }
+        public string ChucVu { get; set; } 
+        public double? HeSoLuong { get; set; } 
     }
 }

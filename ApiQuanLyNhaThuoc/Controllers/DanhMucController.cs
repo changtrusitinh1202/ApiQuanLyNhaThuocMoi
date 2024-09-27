@@ -23,22 +23,22 @@ namespace ApiQuanLyNhaThuoc.Controllers
             return Ok(categories);
         }
 
-        [HttpPost("Add")]
-        public IActionResult AddCategory([FromBody] DanhMuc category)
-        {
+        //[HttpPost("Add")]
+        //public IActionResult AddCategory([FromBody] DanhMuc category)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                category.Id = Guid.NewGuid();
-                categoryService.AddCategory(category);
-                return Json(new { success = true, message = "Thêm thành công" });
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        category.Id = category.TaoMaDanhMuc();
+        //        categoryService.AddCategory(category);
+        //        return Json(new { success = true, message = "Thêm thành công" });
+        //    }
 
-            return BadRequest(ModelState);
-        }
+        //    return BadRequest(ModelState);
+        //}
 
         [HttpPut("Update/{categoryId}")]
-        public IActionResult UpdateCategory(Guid categoryId, [FromBody] DanhMuc categoryUpdate)
+        public IActionResult UpdateCategory(string categoryId, [FromBody] DanhMuc categoryUpdate)
         {
             if (ModelState.IsValid)
             {

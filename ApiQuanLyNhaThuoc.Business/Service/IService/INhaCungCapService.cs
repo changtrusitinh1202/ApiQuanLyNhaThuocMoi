@@ -11,7 +11,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
     {
         List<NhaCungCap> GetNhaCungCaps();
         NhaCungCap GetNhaCungCapByName(string name);
-        NhaCungCap GetNhaCungCapById(Guid id);
+        NhaCungCap GetNhaCungCapById(string id);
         //List<DanhMuc> GetCategoriesByName(string name);
         void AddNhaCungCap(NhaCungCap nhaCungCap);
         void UpdateNhaCungCap(NhaCungCap nhaCungCap);

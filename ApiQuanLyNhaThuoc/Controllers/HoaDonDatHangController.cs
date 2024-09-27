@@ -32,7 +32,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpGet("GetHoaDonDatHang/{hoaDonDatHangId}")]
-        public IActionResult GetHoaDonDatHang(Guid hoaDonDatHangId)
+        public IActionResult GetHoaDonDatHang(string hoaDonDatHangId)
         {
             HoaDonDatHang hoaDonDatHang = hoaDonDatHangService.GetHoaDonDatHangById(hoaDonDatHangId);
             return Ok(hoaDonDatHang);
@@ -75,21 +75,21 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpGet("GetSoLuongDat/{hoaDonDatId}")]
-        public IActionResult GetSoLuongDat(Guid hoaDonDatId)
+        public IActionResult GetSoLuongDat(string hoaDonDatId)
         {
             double soLuongDat = hoaDonDatHangService.GetSoLuongDat(hoaDonDatId);
             return Ok(soLuongDat);
         }
 
         [HttpGet("GetSoLuongDatChiTiet/{hoaDonDatId}/{phienBanSanPhamId}")]
-        public IActionResult GetSoLuongDat(Guid hoaDonDatId, Guid phienBanSanPhamId)
+        public IActionResult GetSoLuongDat(string hoaDonDatId, string phienBanSanPhamId)
         {
             double soLuongDat = hoaDonDatHangService.GetSoLuongDatChiTiet(hoaDonDatId, phienBanSanPhamId);
             return Ok(soLuongDat);
         }
 
         [HttpGet("GetSoLuongDatChiTietConLai/{hoaDonDatId}/{phienBanSanPhamId}")]
-        public IActionResult GetSoLuongDatChiTietConLai(Guid hoaDonDatId, Guid phienBanSanPhamId)
+        public IActionResult GetSoLuongDatChiTietConLai(string hoaDonDatId, string phienBanSanPhamId)
         {
             double soLuongDat = hoaDonDatHangService.GetSoLuongDatChiTietConLai(hoaDonDatId, phienBanSanPhamId);
             return Ok(soLuongDat);

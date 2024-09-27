@@ -57,22 +57,22 @@ namespace ApiQuanLyNhaThuoc.Controllers
             
         }
 
-        [HttpPost("Add")]
-        public IActionResult AddCategory([FromBody] NhaCungCap nhaCungCap)
-        {
+        //[HttpPost("Add")]
+        //public IActionResult AddCategory([FromBody] NhaCungCap nhaCungCap)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                nhaCungCap.Id = Guid.NewGuid();
-                nhaCungCapService.AddNhaCungCap(nhaCungCap);
-                return Json(new { success = true, message = "Thêm thành công" });
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        nhaCungCap.Id = nhaCungCap.TaoMaNhaCungCap();
+        //        nhaCungCapService.AddNhaCungCap(nhaCungCap);
+        //        return Json(new { success = true, message = "Thêm thành công" });
+        //    }
 
-            return BadRequest(ModelState);
-        }
+        //    return BadRequest(ModelState);
+        //}
 
         [HttpPut("Update/{nhacungcapId}")]
-        public IActionResult UpdateCategory(Guid nhacungcapId, [FromBody] NhaCungCap nhaCungCapUpdate)
+        public IActionResult UpdateCategory(string nhacungcapId, [FromBody] NhaCungCap nhaCungCapUpdate)
         {
          
             if (ModelState.IsValid)

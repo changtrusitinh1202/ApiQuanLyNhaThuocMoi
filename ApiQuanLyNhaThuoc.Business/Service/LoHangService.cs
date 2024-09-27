@@ -1,6 +1,8 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +18,32 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         {
             this.db = db;
         }
-        public void CapNhatLoHang(string MaLoHang, double soLuongQuyDoi)
+        public void CapNhatLoHang(LoHang loHang, double soLuongQuyDoi)
         {
-            LoHang? loHangFind = db.LoHang.FirstOrDefault(lh => lh.MaLoHang == MaLoHang);
-            if (loHangFind == null)
-                throw new Exception("Không tìm thấy lô hàng tồn tại");
-            else
-            {
-                loHangFind.SoLuongQuyDoi += soLuongQuyDoi;
-                db.Entry(loHangFind).Property(lh => lh.SoLuongQuyDoi).IsModified = true;
-                db.SaveChanges();
-            }
+
+            loHang.SoLuongQuyDoi += soLuongQuyDoi;
+            db.Entry(loHang).Property(lh => lh.SoLuongQuyDoi).IsModified = true;
+            db.SaveChanges();
         }
 
+        public List<LoHangDTO> GetLoHangs()
+        {
+            var loHangs = db.LoHang
+                   .Include(lh => lh.PhienBanSanPham)
+                   .Include(lh => lh.NhaCungCap)
+                   .Include(lh => lh.KhoHang)
+                   .Select(lh => new LoHangDTO
+                   {
+                       Id = lh.Id,
+                       NgaySanXuat = lh.NgaySanXuat,
+                       NgayHetHan = lh.NgayHetHan,
+                       SoLuongQuyDoi = lh.SoLuongQuyDoi,
+                       TenPhienBanSanPham = lh.PhienBanSanPham.TenQuyDoi,
+                       TenNhaCungCap = lh.NhaCungCap.TenNhaCungCap,
+                       TenKhoHang = lh.KhoHang.ViTriLuuTru
+                   })
+                   .ToList();
+            return loHangs;
+        }
     }
 }

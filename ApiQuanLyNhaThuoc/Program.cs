@@ -19,8 +19,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddEndpointsApiExplorer();
 
+var connectionString = builder.Configuration.GetConnectionString("DatabaseQLNT");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseQLNT")));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -87,6 +88,9 @@ builder.Services.AddScoped<INhaCungCapService, NhaCungCapService>();
 builder.Services.AddScoped<IHoaDonDatHangService, HoaDonDatHangService>();
 builder.Services.AddScoped<IHoaDonNhapHangService, HoaDonNhapHangService>();
 builder.Services.AddScoped<ILoHangService, LoHangService>();
+builder.Services.AddScoped<IKhoHangService, KhoHangService>();
+builder.Services.AddScoped<IHangTonKhoService, HangTonKhoService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
     opt.EnableSensitiveDataLogging();

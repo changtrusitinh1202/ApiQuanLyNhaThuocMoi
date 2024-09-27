@@ -11,37 +11,37 @@ namespace ApiQuanLyNhaThuoc.Models.Models.DTOs
 {
     public class SanPhamDTO
     {
-        [Key]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string MaThuoc { get; set; }
-        [Required]
         public string TenSanPham { get; set; }
-        [Required]
         public string MaVach { get; set; }
-        [Required]
         public string SoDangKy { get; set; }
-        [Required]
         public string DonViTinhNhoNhat { get; set; }
-        [Required]
         public string LoaiThuoc { get; set; }
         public string? Mota { get; set; }
-        [Required]
         public string HoatChatChinh { get; set; }
-        [Required]
         public string HangSanXuat { get; set; }
-        [Required]
         public string NuocSanXuat { get; set; }
-        [Required]
         public string QuyCachDongGoi { get; set; }
-        [Required]
         public string DuongDung { get; set; }
-        public string AnhSanPham { get; set; }
-        [Required]
-        public int TrangThaiBan { get; set; }
+        public string? AnhSanPham { get; set; }
+        public bool TrangThaiBan { get; set; }
+        public string DanhMucId { get; set; }
 
-        [Required]
-        [ForeignKey("DanhMuc")]
-        public Guid DanhMucId { get; set; }
-        public DanhMuc? DanhMuc { get; private set; }
+        public string? CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime ModifiedDate { get; set; }
+
+
+        // Danh sách các phiên bản sản phẩm
+        public List<PhienBanSanPhamDTO> DanhSachPhienBan { get; set; }
+
+        public static string TaoMaSanPham()
+        {
+            Random random = new Random();
+            return "SP" + System.DateTime.Now.ToString("ddMMyyyyHHmmss") + random.Next(1000, 9999);
+        }
     }
 }
