@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ApiQuanLyNhaThuoc.DataAccess\ApiQuanLyNhaThuoc.DataAccess.csproj" />
     <ProjectReference Include="..\ApiQuanLyNhaThuoc.Models\ApiQuanLyNhaThuoc.Models.csproj" />
-    <ProjectReference Include="D:\QuanLyNhaThuoc\Utility\ApiQuanLyNhaThuoc.Utility.csproj" />
   </ItemGroup>
 
 </Project>
