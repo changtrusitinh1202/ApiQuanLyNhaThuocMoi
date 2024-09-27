@@ -5,11 +5,13 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc", "ApiQuanLyNhaThuoc\ApiQuanLyNhaThuoc.csproj", "{DC8A6676-7086-460B-98E7-5B7D485E6C3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQuanLyNhaThuoc.Business", "ApiQuanLyNhaThuoc.Business\ApiQuanLyNhaThuoc.Business.csproj", "{12B07A53-6924-41F0-9ECB-3C1AEA10C0F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.Business", "ApiQuanLyNhaThuoc.Business\ApiQuanLyNhaThuoc.Business.csproj", "{12B07A53-6924-41F0-9ECB-3C1AEA10C0F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQuanLyNhaThuoc.Models", "ApiQuanLyNhaThuoc.Models\ApiQuanLyNhaThuoc.Models.csproj", "{F1FA4B73-C143-480E-A070-2ED52BA1F219}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.Models", "ApiQuanLyNhaThuoc.Models\ApiQuanLyNhaThuoc.Models.csproj", "{F1FA4B73-C143-480E-A070-2ED52BA1F219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQuanLyNhaThuoc.DataAccess", "ApiQuanLyNhaThuoc.DataAccess\ApiQuanLyNhaThuoc.DataAccess.csproj", "{01F83936-B032-4813-9F2F-B2386B9E6F9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.DataAccess", "ApiQuanLyNhaThuoc.DataAccess\ApiQuanLyNhaThuoc.DataAccess.csproj", "{01F83936-B032-4813-9F2F-B2386B9E6F9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.Utility", "D:\QuanLyNhaThuoc\Utility\ApiQuanLyNhaThuoc.Utility.csproj", "{27841874-3C80-4D76-A05B-FE11F178F56B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{01F83936-B032-4813-9F2F-B2386B9E6F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01F83936-B032-4813-9F2F-B2386B9E6F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01F83936-B032-4813-9F2F-B2386B9E6F9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27841874-3C80-4D76-A05B-FE11F178F56B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27841874-3C80-4D76-A05B-FE11F178F56B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27841874-3C80-4D76-A05B-FE11F178F56B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27841874-3C80-4D76-A05B-FE11F178F56B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
