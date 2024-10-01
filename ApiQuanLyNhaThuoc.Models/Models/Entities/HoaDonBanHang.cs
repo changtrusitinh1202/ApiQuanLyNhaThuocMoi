@@ -29,7 +29,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("KhuyenMai")]
         public string KhuyenMaiId { get; set; }
-        [JsonIgnore]
+    
         public KhuyenMai? KhuyenMai { get; private set; }
         public string? TrangThaiThanhToan { get; set; }
         [Required]

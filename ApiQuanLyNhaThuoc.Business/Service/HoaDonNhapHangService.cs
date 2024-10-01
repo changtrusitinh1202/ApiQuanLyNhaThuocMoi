@@ -46,7 +46,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonNhapHang.KhoHangId = "sdfsdfsdfds";
 
             // loại những phiên bản sản phẩm có số lượng nhập <= 0 (tức không nhập số lượng nhập) và những phiên bản sản phẩm đã đặt đủ số lượng
-            hoaDonNhapHang.ChiTietHoaDonNhapHangs = this.DieuChinhChiTietHoaDonNhapHang(hoaDonNhapHang, hoaDonDatHangId);
+            hoaDonNhapHang.ChiTietHoaDonNhapHangs = DieuChinhChiTietHoaDonNhapHang(hoaDonNhapHang, hoaDonDatHangId);
 
             if (!hoaDonNhapHang.ChiTietHoaDonNhapHangs.Any())
                 throw new Exception("Không có sản phẩm nào trong đơn nhập hàng");
@@ -83,10 +83,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         }
 
-        public ICollection<ChiTietHoaDonNhapHang> DieuChinhChiTietHoaDonNhapHang(HoaDonNhapHang hoaDonNhapHang, string hoaDonDatHangID)
+        public List<ChiTietHoaDonNhapHang> DieuChinhChiTietHoaDonNhapHang(HoaDonNhapHang hoaDonNhapHang, string hoaDonDatHangID)
         {
             // loại bỏ những sản phẩm có số lượng < 0
-            ICollection<ChiTietHoaDonNhapHang> chiTiets = hoaDonNhapHang.ChiTietHoaDonNhapHangs
+            List<ChiTietHoaDonNhapHang> chiTiets = hoaDonNhapHang.ChiTietHoaDonNhapHangs
                     .Where(chiTiet => chiTiet.SoLuongNhap > 0)
                     .ToList();
 
@@ -101,7 +101,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return chiTiets;
         }
 
-        public void XuLyChiTIetHoaDonNhapHang(ICollection<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHangs, HoaDonNhapHang hoaDonNhapHang, HoaDonDatHang hoaDonDatHang)
+        public void XuLyChiTIetHoaDonNhapHang(List<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHangs, HoaDonNhapHang hoaDonNhapHang, HoaDonDatHang hoaDonDatHang)
         {
             foreach (var chiTiet in hoaDonNhapHang.ChiTietHoaDonNhapHangs)
             {

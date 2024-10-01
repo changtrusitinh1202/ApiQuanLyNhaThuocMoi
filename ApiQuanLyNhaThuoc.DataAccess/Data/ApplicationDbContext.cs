@@ -74,25 +74,25 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Data
             {
                 entity.ToTable(name: "UserTokens");
             });
-            //    List<IdentityRole> roles = new List<IdentityRole>
-            //        {
-            //            new IdentityRole
-            //            {
-            //                Name = "Admin",
-            //                NormalizedName = "ADMIN"
-            //            },
-            //            new IdentityRole
-            //            {
-            //                Name = "Employee",
-            //                NormalizedName = "EMPLOYEE"
-            //            },
-            //            new IdentityRole
-            //            {
-            //                Name = "Customer",
-            //                NormalizedName = "CUSTOMER"
-            //            }
-            //        };
-            //    builder.Entity<IdentityRole>().HasData(roles);
+            List<IdentityRole> roles = new List<IdentityRole>
+                    {
+                        new IdentityRole
+                        {
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new IdentityRole
+                        {
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new IdentityRole
+                        {
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        }
+                    };
+            builder.Entity<IdentityRole>().HasData(roles);
 
             builder.Entity<DanhMuc>().HasData(
                 new DanhMuc { Id = "DM111", TenDanhMuc = "Thuốc", MoTa = "Thuốc dị ứng", CreatedDate = DateTime.Now, ModifiedDate = DateTime.Now },

@@ -12,6 +12,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         void AddPhienBanSanPham(PhienBanSanPham phienBanSanPham, string sanPhamId);
         PhienBanSanPham GetPhienBanSanPhamById(string sanPhamId, string phienBanSanPhamId);
         PhienBanSanPham GetPhienBanSanPhamByPhienBanId(string phienBanSanPhamId);
+        List<PhienBanSanPham> GetPhienBanSanPhams();
+        List<PhienBanSanPham> GetPhienBanSanPhamsByName(string name);
         void CapNhatTrangThaiBan(string phienBanSanPhamId, string sanPhamId, int trangThai);
     }
 }

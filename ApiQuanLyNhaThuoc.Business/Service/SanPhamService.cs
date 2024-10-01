@@ -60,7 +60,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                    {
                         Id = GenerateId.TaoMaPhienBanSanPham(),
 
-                        TenQuyDoi = sanPham.TenSanPham + "- Mặc định",
+                        TenQuyDoi = sanPham.TenSanPham + " - Mặc định",
                         DonViQuyDoi = pb.DonViQuyDoi,
                         MaSanPham = sanPham.MaThuoc,
                         SoLuong = pb.SoLuong,
@@ -72,7 +72,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                         CreatedBy = "Gia Huy",
                         CreatedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now
-                    });               
+                   });               
                 }
                 else
                 {

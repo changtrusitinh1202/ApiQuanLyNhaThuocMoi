@@ -59,5 +59,18 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             PhienBanSanPham? phienBanSanPhamTim = db.PhienBanSanPham.FirstOrDefault(x => x.Id == phienBanSanPhamId);
             return phienBanSanPhamTim;
         }
+
+        public List<PhienBanSanPham> GetPhienBanSanPhams()
+        {
+            List<PhienBanSanPham> phienBanSanPhams = db.PhienBanSanPham.ToList();
+            return phienBanSanPhams;
+        }
+
+        public List<PhienBanSanPham> GetPhienBanSanPhamsByName(string name)
+        {
+            List<PhienBanSanPham> phienBanSanPhams = db.PhienBanSanPham
+                .Where(p => p.TenQuyDoi.ToLower().Contains(name.ToLower())).ToList();
+            return phienBanSanPhams;
+        }
     }
 }

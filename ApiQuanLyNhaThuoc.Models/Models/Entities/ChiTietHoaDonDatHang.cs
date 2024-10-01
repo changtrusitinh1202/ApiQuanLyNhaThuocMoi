@@ -13,7 +13,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     public class ChiTietHoaDonDatHang
     {
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         [ForeignKey("HoaDonDatHang")]
@@ -24,7 +24,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("PhienBanSanPham")]
         public string PhienBanSanPhamId { get; set; }
-        [JsonIgnore]
         public PhienBanSanPham? PhienBanSanPham { get; private set; }
 
         [Required]

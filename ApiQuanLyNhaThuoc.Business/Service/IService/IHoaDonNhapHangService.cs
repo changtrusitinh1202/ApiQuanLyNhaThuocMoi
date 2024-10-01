@@ -11,7 +11,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
     {
         void AddHoaDon(HoaDonNhapHang hoaDonNhapHang, string hoaDonDatHangId);
         bool KiemTraSoLuongNhap(HoaDonDatHang hoaDonDatHang);
-        ICollection <ChiTietHoaDonNhapHang> DieuChinhChiTietHoaDonNhapHang(HoaDonNhapHang hoaDonNhapHang, string hoaDonDatHangID);
-        public void XuLyChiTIetHoaDonNhapHang(ICollection<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHangs, HoaDonNhapHang hoaDonNhapHang, HoaDonDatHang hoaDonDatHang);
+        List <ChiTietHoaDonNhapHang> DieuChinhChiTietHoaDonNhapHang(HoaDonNhapHang hoaDonNhapHang, string hoaDonDatHangID);
+        public void XuLyChiTIetHoaDonNhapHang(List<ChiTietHoaDonNhapHang> chiTietHoaDonNhapHangs, HoaDonNhapHang hoaDonNhapHang, HoaDonDatHang hoaDonDatHang);
     }
 }

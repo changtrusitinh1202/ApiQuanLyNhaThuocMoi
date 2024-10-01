@@ -28,13 +28,13 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("NhaCungCap")]
         public string NhaCungCapId { get; set; }
-        [JsonIgnore]
+   
         public NhaCungCap? NhaCungCap { get; private set; }
 
         [Required]
         [ForeignKey("NhanVien")]
         public string NhanVienId { get; set; }
-        [JsonIgnore]
+      
         public NhanVien? NhanVien { get; private set; }
 
         [Required]

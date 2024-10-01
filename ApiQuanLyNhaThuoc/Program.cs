@@ -110,12 +110,12 @@ if (!app.Environment.IsDevelopment())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(ModernStyle.Futuristic, options =>
+    app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1 by Gia Huy");
         options.RoutePrefix = string.Empty;
-        options.InjectStylesheet("/css/xmas.css");
-        options.InjectJavascript("/js/custom.js");
+        //options.InjectStylesheet("/css/xmas.css");
+        //options.InjectJavascript("/js/custom.js");
         //options.DocumentTitle = "My Swagger";
     });
 }

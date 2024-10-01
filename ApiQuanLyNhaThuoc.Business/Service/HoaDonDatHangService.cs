@@ -29,14 +29,16 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonDatHang.Id = GenerateId.TaoMaHoaDonDatHang();
             hoaDonDatHang.TrangThaiNhap = TrangThai.ChuaNhap;
             hoaDonDatHang.NgayTao = DateTime.Now;
-
+            hoaDonDatHang.CreatedDate = DateTime.Now;
+            hoaDonDatHang.ModifiedDate = DateTime.Now;
+  
             foreach(var chiTiet in hoaDonDatHang.ChiTietHoaDonDatHangs)
             {
                 chiTiet.Id = GenerateId.TaoMaChiTietHoaDonDatHang();
                 chiTiet.HoaDonDatHangId = hoaDonDatHang.Id;  
-                PhienBanSanPham phien = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
-                chiTiet.Gia = phien.GiaNhapQuyDoi;
+                chiTiet.SoLuongDaNhap = 0;
                 hoaDonDatHang.TongTien = hoaDonDatHang.TongTien + (chiTiet.Gia * (decimal)chiTiet.SoLuongDat);
+                hoaDonDatHang.ChiTietHoaDonDatHangs.Add(chiTiet);
             }
             hoaDonDatHang.Thue = 0.1;
             hoaDonDatHang.ThanhTien = hoaDonDatHang.TongTien + (hoaDonDatHang.TongTien * (decimal)hoaDonDatHang.Thue);
@@ -47,14 +49,22 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public HoaDonDatHang GetHoaDonDatHangById(string guid)
         {
-            HoaDonDatHang hoaDonDatHang = db.HoaDonDatHang
-                .Include(ct => ct.ChiTietHoaDonDatHangs).FirstOrDefault(x => x.Id == guid);
+            HoaDonDatHang? hoaDonDatHang = db.HoaDonDatHang
+                .Include(ct => ct.ChiTietHoaDonDatHangs)
+                    .ThenInclude(pbsp => pbsp.PhienBanSanPham)
+                .Include(ncc => ncc.NhaCungCap)
+                .Include(nv => nv.NhanVien)
+                .FirstOrDefault(x => x.Id == guid);
             return hoaDonDatHang;
         }
 
         public List<HoaDonDatHang> GetHoaDonDatHangs()
         {
-            List<HoaDonDatHang> hoaDonDatHangs = db.HoaDonDatHang.Include(ct => ct.ChiTietHoaDonDatHangs).ToList();
+            List<HoaDonDatHang> hoaDonDatHangs = db.HoaDonDatHang
+                .Include(ct => ct.ChiTietHoaDonDatHangs)
+                .Include(ncc => ncc.NhaCungCap)
+                .Include(nv => nv.NhanVien)
+                .ToList();
             return hoaDonDatHangs;
         }
 
@@ -62,6 +72,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         {
             List<HoaDonDatHang> hoaDonDatHangs = db.HoaDonDatHang
                 .Include(ct => ct.ChiTietHoaDonDatHangs)
+                .Include(ncc => ncc.NhaCungCap)
+                .Include(nv => nv.NhanVien)
                 .Where(x => x.TrangThaiNhap == TrangThai.ChuaNhap).ToList();
             return hoaDonDatHangs;
         }
@@ -70,6 +82,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         {
             List<HoaDonDatHang> hoaDonDatHangs = db.HoaDonDatHang
                 .Include(ct => ct.ChiTietHoaDonDatHangs)
+                .Include(ncc => ncc.NhaCungCap)
+                .Include(nv => nv.NhanVien)
                 .Where(x => x.TrangThaiNhap == TrangThai.HoanThanh).ToList();
             return hoaDonDatHangs;
         }
@@ -78,6 +92,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         {
             List<HoaDonDatHang> hoaDonDatHangs = db.HoaDonDatHang
                 .Include(ct => ct.ChiTietHoaDonDatHangs)
+                .Include(ncc => ncc.NhaCungCap)
+                .Include(nv => nv.NhanVien)
                 .Where(x => x.TrangThaiNhap == TrangThai.NhapMotPhan).ToList();
             return hoaDonDatHangs;
         }

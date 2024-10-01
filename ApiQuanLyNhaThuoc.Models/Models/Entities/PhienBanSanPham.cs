@@ -46,17 +46,17 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("SanPham")]
         public string SanPhamId { get; set; }
-        [JsonIgnore]
+
         public SanPham? SanPham { get; private set; }
 
 
-        [JsonIgnore]
+
         public ICollection<LoHang> LoHangs { get; set; }
-        [JsonIgnore]
+ 
         public ICollection<ChiTietHoaDonDatHang> ChiTietHoaDonDatHangs { get; set; }
-        [JsonIgnore]
+
         public ICollection<ChiTietHoaDonNhapHang> ChiTietHoaDonNhapHangs { get; set; }
-        [JsonIgnore]
+
         public ICollection<KhoHang> KhoHangs { get; set; }
 
        

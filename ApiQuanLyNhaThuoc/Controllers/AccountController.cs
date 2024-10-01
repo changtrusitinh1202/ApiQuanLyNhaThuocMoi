@@ -35,14 +35,16 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 var appUser = new AppUser
                 {
                     UserName = registerDto.Username,
-                    Email = registerDto.EmailAddress
+                    Email = registerDto.EmailAddress,
+                    Quyen = "CUSTOMER",
+                    Ten = "Huy"
                 };
 
                 var createUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
                 if(createUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(appUser, "Customer");
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "CUSTOMER");
                     if (roleResult.Succeeded)
                     {
                         return Ok(
@@ -50,7 +52,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
                             {
                                 UserName = appUser.UserName,
                                 Email = appUser.Email,
-                           
+                               
                             }
                         );
                     }
