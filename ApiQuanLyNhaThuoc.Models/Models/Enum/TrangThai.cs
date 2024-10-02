@@ -19,5 +19,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Enum
         //
         public const string GiaoDich = "Đang giao dịch";
         public const string NgungGiaoDich = "Ngừng giao dịch";
+        // Dùng cho hóa đơn bán hàng (
+        public const string f = "Đã xuất";
     }
 }

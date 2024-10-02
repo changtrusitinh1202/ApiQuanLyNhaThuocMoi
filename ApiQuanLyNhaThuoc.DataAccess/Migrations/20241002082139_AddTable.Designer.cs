@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240927091241_AddTable")]
+    [Migration("20241002082139_AddTable")]
     partial class AddTable
     {
         /// <inheritdoc />
@@ -21,81 +21,81 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DiaChi")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("GioiTinh")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime?>("NgaySinh")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Quyen")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ten")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThanhPho")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -104,7 +104,8 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -112,27 +113,27 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.DanhMuc", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("MoTa")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenDanhMuc")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -142,49 +143,49 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "DM111",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4292),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5400),
                             MoTa = "Thuốc dị ứng",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4306),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5412),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM112",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4307),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5414),
                             MoTa = "Thuốc da liễu",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4308),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5415),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM113",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4347),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5416),
                             MoTa = "Thuốc hô hấp",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4348),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5416),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM114",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4349),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5417),
                             MoTa = "Vitamin & Khoáng chất",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4350),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5418),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM115",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4351),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5419),
                             MoTa = "Hỗ trợ làm đẹp",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4351),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5419),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM116",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4352),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5420),
                             MoTa = "Dinh dưỡng",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4352),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5421),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         });
                 });
@@ -192,19 +193,19 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.KhachHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -214,48 +215,48 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.NhaCungCap", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DiaChi")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("QuocGia")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("TenNhaCungCap")
                         .IsRequired()
                         .HasMaxLength(70)
-                        .HasColumnType("varchar(70)");
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("ThanhPho")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("TrangThaiGiaoDich")
                         .HasColumnType("int");
@@ -263,7 +264,7 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     b.Property<string>("Website")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -273,10 +274,10 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "NCC001",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4522),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5558),
                             DiaChi = "123 Lê Lợi",
                             Email = "longchaugv@gmail.com",
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4523),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5560),
                             QuocGia = "Việt Nam",
                             SoDienThoai = "0123456789",
                             TenNhaCungCap = "Nhà thuốc Long Châu",
@@ -289,26 +290,26 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.NhanVien", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ChucVu")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<double?>("HeSoLuong")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -318,76 +319,76 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Entities.SanPham", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AnhSanPham")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DanhMucId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DonViTinhNhoNhat")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DuongDung")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HangSanXuat")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoatChatChinh")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoaiThuoc")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaThuoc")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaVach")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Mota")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NuocSanXuat")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuyCachDongGoi")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoDangKy")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TenSanPham")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TrangThaiBan")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -399,18 +400,18 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.ChiTietGiamGia", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("GiamGia")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<string>("KhuyenMaiId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -424,24 +425,21 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.ChiTietHoaDonBanHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("Gia")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<string>("HoaDonId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuong")
-                        .HasColumnType("double");
-
-                    b.Property<decimal>("ThanhTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -455,24 +453,24 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.ChiTietHoaDonDatHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Gia")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("HoaDonDatHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuongDaNhap")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double>("SoLuongDat")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -486,25 +484,25 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.ChiTietHoaDonNhapHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Gia")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("HoaDonNhapHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuongNhap")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -520,28 +518,28 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.HangTonKho", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("KhoHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuongCoTheBan")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double>("SoLuongDangVe")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<double>("SoLuongTrongKho")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -557,43 +555,60 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonBanHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DiaChi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HinhThucMuaHang")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HinhThucThanhToan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("KhachHangId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("KhuyenMaiId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NhanVienId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SoDienThoai")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ten")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ThanhTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Thue")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("TrangThaiDonHang")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TrangThaiThanhToan")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -609,42 +624,42 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonDatHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NhaCungCapId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NhanVienId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("ThanhTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Thue")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TrangThaiNhap")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -658,47 +673,47 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonNhapHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("HoaDonDatHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("KhoHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NhaCungCapId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NhanVienId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("ThanhTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<double>("Thue")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TrangThaiThanhToan")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -716,26 +731,26 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.KhoHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PhienBanSanPhamId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ViTriLuuTru")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -747,8 +762,8 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "KHO001",
-                            CreatedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4550),
-                            ModifiedDate = new DateTime(2024, 9, 27, 16, 12, 40, 981, DateTimeKind.Local).AddTicks(4550),
+                            CreatedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5591),
+                            ModifiedDate = new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5591),
                             ViTriLuuTru = "Chi nhánh mặc định"
                         });
                 });
@@ -756,25 +771,25 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.KhuyenMai", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgayBatDau")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgayKetThuc")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -784,28 +799,28 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.LoHang", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("KhoHangId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayHetHan")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgaySanXuat")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NhaCungCapId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhienBanSanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuongQuyDoi")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -821,54 +836,54 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.PhienBanSanPham", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DonViQuyDoi")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("GiaBanQuyDoi")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("GiaNhapQuyDoi")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("KhoiLuong")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaSanPham")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaVach")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SanPhamId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("SoLuong")
-                        .HasColumnType("double");
+                        .HasColumnType("float");
 
                     b.Property<string>("TenQuyDoi")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TrangThaiBan")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -880,27 +895,48 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0ceee5a2-2813-4429-ae0d-ac82db8f7e94",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "1d7c095a-00b4-41ff-a9e3-57daa5f5767a",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "cd81f91b-751c-4e0b-8063-30aa0fe1aae1",
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -909,17 +945,17 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -934,17 +970,17 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -956,17 +992,17 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -978,10 +1014,10 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -993,16 +1029,16 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -1157,21 +1193,15 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                 {
                     b.HasOne("ApiQuanLyNhaThuoc.Models.Entities.KhachHang", "KhachHang")
                         .WithMany()
-                        .HasForeignKey("KhachHangId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("KhachHangId");
 
                     b.HasOne("ApiQuanLyNhaThuoc.Models.Models.Entities.KhuyenMai", "KhuyenMai")
                         .WithMany()
-                        .HasForeignKey("KhuyenMaiId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("KhuyenMaiId");
 
                     b.HasOne("ApiQuanLyNhaThuoc.Models.Entities.NhanVien", "NhanVien")
                         .WithMany()
-                        .HasForeignKey("NhanVienId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NhanVienId");
 
                     b.Navigation("KhachHang");
 

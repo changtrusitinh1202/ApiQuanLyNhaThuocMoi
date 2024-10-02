@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,7 +29,9 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         [Required]
         [ForeignKey("LoHang")]
+        [ValidateNever]
         public string LoHangId { get; set; }
+        [ValidateNever]
         public LoHang? LoHang { get;  set; }
 
         [Required]

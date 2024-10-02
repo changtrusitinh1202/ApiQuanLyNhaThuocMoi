@@ -46,7 +46,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("SanPham")]
         public string SanPhamId { get; set; }
-
+        [JsonIgnore]
         public SanPham? SanPham { get; private set; }
 
 

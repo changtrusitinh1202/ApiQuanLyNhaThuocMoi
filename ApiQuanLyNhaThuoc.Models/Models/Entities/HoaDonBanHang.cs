@@ -1,5 +1,6 @@
 ﻿using ApiQuanLyNhaThuoc.Models.Abstract;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,21 +17,26 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Key]
         public string Id { get; set; }
 
-        [Required]
         [ForeignKey("KhachHang")]
-        public string KhachHangId { get; set; }
+        public string? KhachHangId { get; set; }
         [JsonIgnore]
         public KhachHang? KhachHang { get; private set; }
-        [Required]
+
         [ForeignKey("NhanVien")]
-        public string NhanVienId { get; set; }
+        [ValidateNever]
+        public string? NhanVienId { get; set; }
         [JsonIgnore]
         public NhanVien? NhanVien { get; private set; }
-        [Required]
+
         [ForeignKey("KhuyenMai")]
-        public string KhuyenMaiId { get; set; }
-    
+        [ValidateNever]
+        public string? KhuyenMaiId { get; set; }
+        [JsonIgnore]
         public KhuyenMai? KhuyenMai { get; private set; }
+
+        public string HinhThucMuaHang { get; set; }
+        public string HinhThucThanhToan { get; set; }
+        public string? TrangThaiDonHang { get; set;}
         public string? TrangThaiThanhToan { get; set; }
         [Required]
         public decimal TongTien { get; set; }
@@ -40,7 +46,15 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         [Required]
         public decimal ThanhTien { get; set; }
+   
+        public string? SoDienThoai { get; set; }
 
-       
+        public string? DiaChi { get; set; }
+          
+        public string? Ten { get; set; }
+
+        public ICollection<ChiTietHoaDonBanHang> ChiTietHoaDonBanHangs { get; set; }
+
+
     }
 }

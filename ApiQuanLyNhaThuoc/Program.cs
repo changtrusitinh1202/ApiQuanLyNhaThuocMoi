@@ -19,10 +19,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddEndpointsApiExplorer();
 
-var connectionString = builder.Configuration.GetConnectionString("DatabaseQLNT");
+//var connectionString = builder.Configuration.GetConnectionString("DatabaseQLNT");
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseQLNT")));
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -90,6 +91,7 @@ builder.Services.AddScoped<IHoaDonNhapHangService, HoaDonNhapHangService>();
 builder.Services.AddScoped<ILoHangService, LoHangService>();
 builder.Services.AddScoped<IKhoHangService, KhoHangService>();
 builder.Services.AddScoped<IHangTonKhoService, HangTonKhoService>();
+builder.Services.AddScoped<IHoaDonBanHangService, HoaDonBanHangService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {

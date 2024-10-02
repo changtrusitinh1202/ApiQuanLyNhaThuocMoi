@@ -43,17 +43,17 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonNhapHang.HoaDonDatHangId = hoaDonDatHangFind.Id;
             hoaDonNhapHang.CreatedDate = DateTime.Now;
             hoaDonNhapHang.NhaCungCapId = hoaDonDatHangFind.NhaCungCapId;
-            hoaDonNhapHang.KhoHangId = "sdfsdfsdfds";
+            hoaDonNhapHang.KhoHangId = "KHO001";
 
+          
             // loại những phiên bản sản phẩm có số lượng nhập <= 0 (tức không nhập số lượng nhập) và những phiên bản sản phẩm đã đặt đủ số lượng
             hoaDonNhapHang.ChiTietHoaDonNhapHangs = DieuChinhChiTietHoaDonNhapHang(hoaDonNhapHang, hoaDonDatHangId);
 
-            if (!hoaDonNhapHang.ChiTietHoaDonNhapHangs.Any())
-                throw new Exception("Không có sản phẩm nào trong đơn nhập hàng");
 
-          
             XuLyChiTIetHoaDonNhapHang(hoaDonNhapHang.ChiTietHoaDonNhapHangs, hoaDonNhapHang, hoaDonDatHangFind);
-            
+
+
+
             db.HoaDonNhapHang.Add(hoaDonNhapHang);
             db.SaveChanges();
 
@@ -95,7 +95,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 ChiTietHoaDonDatHang chiTietHoaDonDatHang = hoaDonDatHangService
                     .GetChiTietHoaDonDatHangFromDonNhapHang(hoaDonDatHangID, chiTiet.PhienBanSanPhamId);
-                if(chiTietHoaDonDatHang.SoLuongDat == chiTiet.SoLuongNhap)
+                if(chiTietHoaDonDatHang.SoLuongDaNhap == chiTiet.SoLuongNhap)
                     chiTiets.Remove(chiTiet);
             }
             return chiTiets;
@@ -150,6 +150,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                     chiTiet.LoHang.PhienBanSanPhamId = chiTiet.PhienBanSanPhamId;
                     db.LoHang.Add(chiTiet.LoHang);
                     chiTiet.LoHangId = chiTiet.LoHang.Id;
+                    
                 }
 
                 chiTiet.Gia = phienBanSanPham.GiaNhapQuyDoi; // 1000, 300000

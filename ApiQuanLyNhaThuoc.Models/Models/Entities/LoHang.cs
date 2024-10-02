@@ -14,7 +14,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     {
 
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         public DateTime NgaySanXuat { get; set; }
         [Required]
