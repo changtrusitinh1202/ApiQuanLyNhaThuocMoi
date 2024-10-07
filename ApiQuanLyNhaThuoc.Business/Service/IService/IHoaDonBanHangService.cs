@@ -12,5 +12,6 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang);
         void AddHoaDonBanHangOnline(HoaDonBanHang hoaDonBanHang);
         HoaDonBanHang GetHoaDonBanHangById(string id);
+        void SendMailConfirm(HoaDonBanHang hoaDonBanHang);
     }
 }

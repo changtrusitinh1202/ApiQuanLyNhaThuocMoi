@@ -5,25 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApiQuanLyNhaThuoc.Models.DTOs
+namespace ApiQuanLyNhaThuoc.Models.Models.DTOs
 {
-    public class RegisterDTO
+    public class KhachHangDTO
     {
         [Required]
         public string? Username { get; set; }
         [Required]
-        [EmailAddress]
         public string? EmailAddress { get; set; }
         [Required]
-        public string? MatKhau { get; set; }
-        public string? HoTen { get; set; }
+        public string HoTen { get; set; }
         public string? DiaChi { get; set; }
         public string? ThanhPho { get; set; }
         public bool? GioiTinh { get; set; }
         public DateTime? NgaySinh { get; set; }
-        public string? Quyen { get; set; }
         [Required]
         public string SoDienThoai { get; set; }
-       
+        [Required]
+        public string Quyen { get; set; }
+        public decimal TichDiem { get; set; }
+        public string? RankKhachHang { get; set; }
+
     }
 }

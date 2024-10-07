@@ -1,4 +1,5 @@
-﻿using ApiQuanLyNhaThuoc.Models.Models.Entities;
+﻿using ApiQuanLyNhaThuoc.Models.Models.DTOs;
+using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         PhienBanSanPham GetPhienBanSanPhamById(string sanPhamId, string phienBanSanPhamId);
         PhienBanSanPham GetPhienBanSanPhamByPhienBanId(string phienBanSanPhamId);
         List<PhienBanSanPham> GetPhienBanSanPhams();
+        List<PhienBanSanPhamDTO> GetPhienBanSanPhamsDTO();
         List<PhienBanSanPham> GetPhienBanSanPhamsByName(string name);
         void CapNhatTrangThaiBan(string phienBanSanPhamId, string sanPhamId, int trangThai);
     }

@@ -32,6 +32,14 @@ namespace ApiQuanLyNhaThuoc.Controllers
             return Ok(phienBanSanPham);
         }
 
+
+        [HttpGet("GetPhienBanSanPhams")]
+        public IActionResult GetPhienBanSanPhams()
+        {
+            List<PhienBanSanPham> phienBanSanPhams = phienBanSanPhamService.GetPhienBanSanPhams();
+            return Ok(phienBanSanPhams);
+        }
+
         [HttpPost("AddPhienBan/{sanPhamId}")]
         public IActionResult AddPhienBanSanPham([FromBody] PhienBanSanPham phienBanSanPham, string sanPhamId)
         {

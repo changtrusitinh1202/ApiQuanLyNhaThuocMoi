@@ -24,7 +24,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [Required]
         public string TenQuyDoi { get; set; }
         [Required]
@@ -46,6 +46,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         [ForeignKey("SanPham")]
         public string SanPhamId { get; set; }
+        [ValidateNever]
         [JsonIgnore]
         public SanPham? SanPham { get; private set; }
 

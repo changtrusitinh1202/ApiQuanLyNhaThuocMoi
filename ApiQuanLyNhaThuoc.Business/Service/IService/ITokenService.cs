@@ -13,5 +13,6 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         string CreateToken(AppUser user);
         string GenerateRefeshToken();
         string GenerateAccessTokenFromRefeshToken(string refeshToken);
+        
     }
 }

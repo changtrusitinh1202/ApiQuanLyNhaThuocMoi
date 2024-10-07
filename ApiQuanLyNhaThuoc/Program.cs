@@ -11,6 +11,9 @@ using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.Business.Service;
 using SwaggerThemes;
 using AspNetCore.Swagger.Themes;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using ApiQuanLyNhaThuoc.Utility;
+using ApiQuanLyNhaThuoc.Models.Models.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +58,19 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequiredLength = 12;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddSingleton(new TokenValidationParameters
+{
+    ValidateIssuer = true,
+    ValidIssuer = builder.Configuration["JWT:Issuer"],
+    ValidateAudience = true,
+    ValidAudience = builder.Configuration["JWT:Audience"],
+    IssuerSigningKey = new SymmetricSecurityKey(
+        System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
+    ),
+    ValidateIssuerSigningKey = true,
+    ValidateLifetime = true // Đảm bảo token không hết hạn
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme =
@@ -65,16 +81,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
-        )
-    };
+    options.TokenValidationParameters = options.TokenValidationParameters = builder.Services.BuildServiceProvider().GetRequiredService<TokenValidationParameters>();
 
 
 });
@@ -92,6 +99,11 @@ builder.Services.AddScoped<ILoHangService, LoHangService>();
 builder.Services.AddScoped<IKhoHangService, KhoHangService>();
 builder.Services.AddScoped<IHangTonKhoService, HangTonKhoService>();
 builder.Services.AddScoped<IHoaDonBanHangService, HoaDonBanHangService>();
+builder.Services.AddScoped<INhanVienService, NhanVienService>();
+builder.Services.AddScoped<IKhachHangService, KhachHangService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
+builder.Services.AddSingleton<JwtTokenProvider>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
@@ -123,7 +135,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAll");
 
 app.UseRouting();
 

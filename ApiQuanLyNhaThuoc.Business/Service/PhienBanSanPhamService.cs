@@ -1,6 +1,7 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -72,5 +73,31 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 .Where(p => p.TenQuyDoi.ToLower().Contains(name.ToLower())).ToList();
             return phienBanSanPhams;
         }
+
+        public List<PhienBanSanPhamDTO> GetPhienBanSanPhamsDTO()
+        {
+            List<PhienBanSanPhamDTO> phienBanSanPhams = db.PhienBanSanPham
+                .Include(p => p.SanPham)
+                .Select(p => new PhienBanSanPhamDTO
+                {
+                    Id = p.Id,
+                    TenQuyDoi = p.TenQuyDoi,
+                    DonViQuyDoi = p.DonViQuyDoi,
+                    SoLuong = p.SoLuong,
+                    MaVach = p.MaVach,
+                    KhoiLuong = p.KhoiLuong,
+                    GiaNhapQuyDoi = p.GiaNhapQuyDoi,
+                    GiaBanQuyDoi = p.GiaBanQuyDoi,
+                    TrangThaiBan = p.TrangThaiBan,
+                    SanPhamId = p.SanPhamId,
+                    SanPham = p.SanPham,
+                    CreatedBy = p.CreatedBy,
+                    CreatedDate = p.CreatedDate,
+                    ModifiedDate = p.ModifiedDate
+                })
+                .ToList();
+            return phienBanSanPhams;
+        }
+
     }
 }
