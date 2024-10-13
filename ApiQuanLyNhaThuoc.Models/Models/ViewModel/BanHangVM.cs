@@ -14,5 +14,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.ViewModel
         [ValidateNever]
         public List<PhienBanSanPhamDTO> PhienBanSanPhams { get; set; }
         public HoaDonBanHang HoaDonBanHang { get; set; }
+        public List<KhachHangDTO> KhachHangDTOs { get; set; }
     }
 }

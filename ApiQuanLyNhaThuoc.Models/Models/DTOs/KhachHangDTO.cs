@@ -9,6 +9,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.DTOs
 {
     public class KhachHangDTO
     {
+        public string Id { get; set; }
         [Required]
         public string? Username { get; set; }
         [Required]

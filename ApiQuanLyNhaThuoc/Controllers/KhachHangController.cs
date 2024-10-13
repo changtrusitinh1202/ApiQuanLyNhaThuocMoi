@@ -21,5 +21,12 @@ namespace ApiQuanLyNhaThuoc.Controllers
             var khachHangs = khachHangService.GetKhachHangByToken(token);
             return Ok(khachHangs);
         }
+
+        [HttpGet("GetHoaDonKhacHangByID")]
+        public IActionResult GetHoaDonKhacHangByID(string id)
+        {
+            var hoaDonBanHangs = khachHangService.GetHoaDonBanHangByKhachHangId(id);
+            return Ok(hoaDonBanHangs);
+        }
     }
 }

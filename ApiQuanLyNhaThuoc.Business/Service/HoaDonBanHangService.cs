@@ -1,5 +1,6 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
+using ApiQuanLyNhaThuoc.Models.Entities;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -50,8 +51,17 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonBanHang.ChiTietHoaDonBanHangs = chiTiets;
             hoaDonBanHang.Thue = 0.1;
             hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
-            if(hoaDonBanHang.KhachHangId == null) // khách lẻ mua trực tiếp không cho thông tin
+            KhachHang? khachHang = db.KhachHang.FirstOrDefault(kh => kh.Id == hoaDonBanHang.KhachHangId);
+            if(khachHang == null) // khách lẻ mua trực tiếp không cho thông tin
             {
+                hoaDonBanHang.HinhThucThanhToan = "Tiền mặt";
+                hoaDonBanHang.HinhThucMuaHang = "Tại quầy";
+                hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
+                hoaDonBanHang.TrangThaiDonHang = "Hoàn thành";
+            }
+            else
+            {
+                khachHang.TichDiem = khachHang.TichDiem + (hoaDonBanHang.ThanhTien * (decimal)0.01);
                 hoaDonBanHang.HinhThucThanhToan = "Tiền mặt";
                 hoaDonBanHang.HinhThucMuaHang = "Tại quầy";
                 hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";

@@ -15,11 +15,11 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
     public class HoaDonBanHang : CommonAbtract
     {
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [ForeignKey("KhachHang")]
         public string? KhachHangId { get; set; }
-        [JsonIgnore]
+  
         public KhachHang? KhachHang { get; private set; }
 
         [ForeignKey("NhanVien")]
@@ -52,6 +52,12 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         public string? DiaChi { get; set; }
           
         public string? Ten { get; set; }
+
+        public bool? DungTichDiem { get; set; }
+
+        public decimal? SoDiemTichLuyDung { get; set; }
+
+        public string? GhiChu { get; set; }
 
         public ICollection<ChiTietHoaDonBanHang> ChiTietHoaDonBanHangs { get; set; }
 

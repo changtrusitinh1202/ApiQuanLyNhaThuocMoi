@@ -2,6 +2,7 @@
 using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Security;
 using ApiQuanLyNhaThuoc.Models.Response;
 using Microsoft.AspNetCore.Identity;
@@ -150,6 +151,72 @@ namespace ApiQuanLyNhaThuoc.Controllers
                         return StatusCode(500, roleResult.Errors);
                     }
 
+                }
+                else
+                {
+                    return StatusCode(500, createUser.Errors);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+
+        [HttpPost("RegisterCustomerBanHang")]
+        public async Task<IActionResult> RegisterCustomerBanHang([FromBody] RegisterBanHangDTO registerDto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var appUser = new AppUser
+                {
+                    Ten = registerDto.HoTen,
+                    PhoneNumber = registerDto.SoDienThoai,
+                    Quyen = "CUSTOMER",
+                    UserName = registerDto.SoDienThoai
+                };
+
+                // Lưu trữ PasswordValidator gốc
+                var originalPasswordValidators = _userManager.PasswordValidators.ToList();
+
+                // Thay thế PasswordValidator bằng CustomPasswordValidator
+                _userManager.PasswordValidators.Clear();
+                _userManager.PasswordValidators.Add(new CustomPasswordValidator<AppUser>());
+
+                // Tạo người dùng mà không kiểm tra mật khẩu
+                var createUser = await _userManager.CreateAsync(appUser, "");
+
+                // Khôi phục PasswordValidator gốc sau khi tạo người dùng
+                _userManager.PasswordValidators.Clear();
+                foreach (var validator in originalPasswordValidators)
+                {
+                    _userManager.PasswordValidators.Add(validator);
+                }
+
+                if (createUser.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "CUSTOMER");
+                    if (roleResult.Succeeded)
+                    {
+                        khachHangService.AddKhachHang(new KhachHang
+                        {
+                            Id = appUser.Id,
+                            TichDiem = 0,
+                            RankKhachHang = "Đồng",
+                            CreatedDate = DateTime.Now,
+                            ModifiedDate = DateTime.Now
+                        });
+
+                        return Ok("Thành công");
+                    }
+                    else
+                    {
+                        return StatusCode(500, roleResult.Errors);
+                    }
                 }
                 else
                 {

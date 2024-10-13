@@ -1,4 +1,5 @@
-﻿using ApiQuanLyNhaThuoc.Models.Models.Entities;
+﻿using ApiQuanLyNhaThuoc.Models.Models.DTOs;
+using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.ViewModel
         [ValidateNever]
         public HoaDonDatHang HoaDonDatHang { get; set; }
         public HoaDonNhapHang HoaDonNhapHang { get; set; }
+    
     }
 }
