@@ -9,11 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.SwaggerUI.Themes" Version="1.0.0" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
     <PackageReference Include="oqo0.SwaggerThemes" Version="1.3.3" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-    <PackageReference Include="vng.zalo.ZaloDotNetSDK" Version="2.1.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,7 +49,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.EmailAddress,
-                    Quyen = registerDto.Quyen,
+                  //  Quyen = registerDto.Quyen,
                     Ten = registerDto.HoTen,
                     DiaChi = registerDto.DiaChi,
                     ThanhPho = registerDto.ThanhPho,
@@ -62,7 +62,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
                 if(createUser.Succeeded)
                 {
-                    var roleResult = await _userManager.AddToRoleAsync(appUser, "EMPLOYEE");
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "EMPLOYEE MANAGER");
                     if (roleResult.Succeeded)
                     {
                          nhanVienService.AddNhanVien(new NhanVien
@@ -111,7 +111,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.EmailAddress,
-                    Quyen = "CUSTOMER",
+                   // Quyen = "CUSTOMER",
                     Ten = registerDto.HoTen,
                     DiaChi = registerDto.DiaChi,
                     ThanhPho = registerDto.ThanhPho,
@@ -176,7 +176,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 {
                     Ten = registerDto.HoTen,
                     PhoneNumber = registerDto.SoDienThoai,
-                    Quyen = "CUSTOMER",
+                    //Quyen = "CUSTOMER",
                     UserName = registerDto.SoDienThoai
                 };
 
@@ -249,7 +249,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
             return Ok(
                 new TokenResponse
                 {
-                    AccessToken = accessToken,
+                    AccessToken = await accessToken,
                     RefreshToken = refeshToken,                
                 }
             );

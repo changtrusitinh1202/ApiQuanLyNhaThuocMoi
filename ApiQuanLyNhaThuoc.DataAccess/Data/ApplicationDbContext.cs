@@ -88,6 +88,11 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Data
                         },
                          new IdentityRole
                         {
+                            Name = "Employee Manager",
+                            NormalizedName = "EMPLOYEE MANAGER"
+                        },
+                         new IdentityRole
+                        {
                             Name = "Employee Online",
                             NormalizedName = "EMPLOYEE ONLINE"
                         },

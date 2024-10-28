@@ -31,12 +31,13 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             this.hostingEnvironment = hostingEnvironment;
             this.emailSender = emailSender;
         }
-        public void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang)
+        public void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang, string nhanVienId)
         {
             hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang();
             hoaDonBanHang.CreatedDate = DateTime.Now;
             hoaDonBanHang.ModifiedDate = DateTime.Now;
             hoaDonBanHang.KhuyenMaiId = null;
+            hoaDonBanHang.NhanVienId = nhanVienId;
 
             List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
 
@@ -71,7 +72,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             db.HoaDonBanHang.Add(hoaDonBanHang);
             db.SaveChanges();
-            SendMailConfirm(hoaDonBanHang);
+            //SendMailConfirm(hoaDonBanHang);
         }
 
         public void AddHoaDonBanHangOnline(HoaDonBanHang hoaDonBanHang) // khách hàng mua online và có tài khoản

@@ -14,5 +14,7 @@ namespace ApiQuanLyNhaThuoc.Models.DTOs
         [Required]
         public string Password { get; set; }
 
+        public bool KeepLoggedIn { get; set; }
+
     }
 }

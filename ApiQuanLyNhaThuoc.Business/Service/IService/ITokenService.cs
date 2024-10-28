@@ -10,7 +10,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
 {
     public interface ITokenService
     {
-        string CreateToken(AppUser user);
+        Task<string> CreateToken(AppUser user);
         string GenerateRefeshToken();
         string GenerateAccessTokenFromRefeshToken(string refeshToken);
         

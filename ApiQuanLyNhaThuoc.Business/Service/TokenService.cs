@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace ApiQuanLyNhaThuoc.Business.Service
 { 
@@ -20,19 +21,30 @@ namespace ApiQuanLyNhaThuoc.Business.Service
     {
         private readonly IConfiguration _config;
         private readonly SymmetricSecurityKey _key;
-        public TokenService(IConfiguration config)
+        private readonly UserManager<AppUser> _userManager;
+        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _config = config;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+            _userManager = userManager;
         }
-        public string CreateToken(AppUser user)
+        public async Task<string> CreateToken(AppUser user)
         {
             var claims = new List<Claim>
             {
              
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
-           
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Thêm các role vào danh sách claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

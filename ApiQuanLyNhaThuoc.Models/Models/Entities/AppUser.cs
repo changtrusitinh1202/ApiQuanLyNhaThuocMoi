@@ -17,8 +17,8 @@ namespace ApiQuanLyNhaThuoc.Models.Entities
         public string? ThanhPho { get; set; }
         public bool? GioiTinh { get; set; }
         public DateTime? NgaySinh { get; set; }
+
         [Required]
         public string Quyen { get; set; }
-  
     }
 }

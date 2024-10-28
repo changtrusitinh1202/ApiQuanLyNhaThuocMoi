@@ -46,12 +46,6 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         [Required]
         public decimal ThanhTien { get; set; }
-   
-        public string? SoDienThoai { get; set; }
-
-        public string? DiaChi { get; set; }
-          
-        public string? Ten { get; set; }
 
         public bool? DungTichDiem { get; set; }
 

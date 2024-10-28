@@ -9,20 +9,22 @@ namespace ApiQuanLyNhaThuoc.Controllers
     public class HoaDonBanHangController : Controller
     {
         public IHoaDonBanHangService hoaDonBanHangService;
+        public ITongQuanService tongQuanService;
         ApplicationDbContext db;
-        public HoaDonBanHangController(IHoaDonBanHangService hoaDonBanHangService, ApplicationDbContext db)
+        public HoaDonBanHangController(IHoaDonBanHangService hoaDonBanHangService, ITongQuanService tongQuanService, ApplicationDbContext db)
         {
             this.hoaDonBanHangService = hoaDonBanHangService;
+            this.tongQuanService = tongQuanService;
             this.db = db;
         }
-   
+
 
         [HttpPost("AddHoaDonBanHangTrucTiep")]
-        public IActionResult AddHoaDonBanHangTrucTiep([FromBody] HoaDonBanHang hoaDonBanHang)
+        public IActionResult AddHoaDonBanHangTrucTiep([FromBody] HoaDonBanHang hoaDonBanHang , string nhanVienId)
         {
             if (ModelState.IsValid)
             {
-                hoaDonBanHangService.AddHoaDonBanHangTrucTiep(hoaDonBanHang);
+                hoaDonBanHangService.AddHoaDonBanHangTrucTiep(hoaDonBanHang, nhanVienId);
                 return Ok(hoaDonBanHang);
             }
             return BadRequest(ModelState);
@@ -39,6 +41,16 @@ namespace ApiQuanLyNhaThuoc.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
+
+        [HttpGet("GetTongQuan")]
+        public IActionResult GetTongQuan(int nam)
+        {
+            var tongQuan = tongQuanService.GetTongTienTongQuanTheoThangTrongNam(nam);
+            return Ok(tongQuan);
+        }
+
     }
-  
+
 }

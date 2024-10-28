@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241010171048_AddSomeFieldHoaDonBanHang")]
-    partial class AddSomeFieldHoaDonBanHang
+    [Migration("20241025051248_AddTableNew")]
+    partial class AddTableNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -75,10 +75,6 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Quyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -143,49 +139,49 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "DM111",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3782),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8223),
                             MoTa = "Thuốc dị ứng",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3791),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8234),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM112",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3793),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8236),
                             MoTa = "Thuốc da liễu",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3793),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8236),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM113",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3795),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8237),
                             MoTa = "Thuốc hô hấp",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3795),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8238),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM114",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3796),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8239),
                             MoTa = "Vitamin & Khoáng chất",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3796),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8239),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM115",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3797),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8240),
                             MoTa = "Hỗ trợ làm đẹp",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3798),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8241),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM116",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3799),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8242),
                             MoTa = "Dinh dưỡng",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3799),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8242),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         });
                 });
@@ -280,10 +276,10 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "NCC001",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3908),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8389),
                             DiaChi = "123 Lê Lợi",
                             Email = "longchaugv@gmail.com",
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3909),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8390),
                             QuocGia = "Việt Nam",
                             SoDienThoai = "0123456789",
                             TenNhaCungCap = "Nhà thuốc Long Châu",
@@ -780,8 +776,8 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "KHO001",
-                            CreatedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3952),
-                            ModifiedDate = new DateTime(2024, 10, 11, 0, 10, 46, 248, DateTimeKind.Local).AddTicks(3953),
+                            CreatedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8415),
+                            ModifiedDate = new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8415),
                             ViTriLuuTru = "Chi nhánh mặc định"
                         });
                 });
@@ -939,25 +935,31 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "26e94c63-aabc-4d90-a423-36b64ff5cf7c",
+                            Id = "1de06f99-b44e-4ebd-9ebb-09e5027cbcc4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b261ec13-2b99-4a83-8e2c-ee3f7cbfd989",
+                            Id = "308efd73-3dc7-40b4-b550-eda76bbe9dba",
                             Name = "Employee POS",
                             NormalizedName = "EMPLOYEE POS"
                         },
                         new
                         {
-                            Id = "1689d334-8081-4112-a9fa-cefc6e1ea933",
+                            Id = "d21e5a9c-7659-49ef-b836-3e4ed44b44e8",
+                            Name = "Employee Manager",
+                            NormalizedName = "EMPLOYEE MANAGER"
+                        },
+                        new
+                        {
+                            Id = "06e20060-4f18-4b24-a3c1-5f240876d506",
                             Name = "Employee Online",
                             NormalizedName = "EMPLOYEE ONLINE"
                         },
                         new
                         {
-                            Id = "872f3690-695d-4b68-9525-1439820e5f9f",
+                            Id = "9183fae1-2ff1-4bdc-a2d3-e82636166e55",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });

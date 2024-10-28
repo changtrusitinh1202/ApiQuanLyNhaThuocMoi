@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTable : Migration
+    public partial class AddTableNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,7 +94,6 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     ThanhPho = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GioiTinh = table.Column<bool>(type: "bit", nullable: true),
                     NgaySinh = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Quyen = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -177,6 +176,8 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TichDiem = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    RankKhachHang = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -200,6 +201,7 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ChucVu = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HeSoLuong = table.Column<double>(type: "float", nullable: true),
+                    CaLamViec = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -350,6 +352,9 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiaChi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ten = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DungTichDiem = table.Column<bool>(type: "bit", nullable: true),
+                    SoDiemTichLuyDung = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -668,32 +673,34 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "MoTa", "ModifiedBy", "ModifiedDate", "TenDanhMuc" },
                 values: new object[,]
                 {
-                    { "DM111", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5400), "Thuốc dị ứng", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5412), "Thuốc" },
-                    { "DM112", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5414), "Thuốc da liễu", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5415), "Thuốc" },
-                    { "DM113", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5416), "Thuốc hô hấp", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5416), "Thuốc" },
-                    { "DM114", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5417), "Vitamin & Khoáng chất", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5418), "Thực phẩm chứng năng" },
-                    { "DM115", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5419), "Hỗ trợ làm đẹp", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5419), "Thực phẩm chứng năng" },
-                    { "DM116", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5420), "Dinh dưỡng", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5421), "Thực phẩm chứng năng" }
+                    { "DM111", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8223), "Thuốc dị ứng", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8234), "Thuốc" },
+                    { "DM112", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8236), "Thuốc da liễu", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8236), "Thuốc" },
+                    { "DM113", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8237), "Thuốc hô hấp", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8238), "Thuốc" },
+                    { "DM114", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8239), "Vitamin & Khoáng chất", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8239), "Thực phẩm chứng năng" },
+                    { "DM115", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8240), "Hỗ trợ làm đẹp", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8241), "Thực phẩm chứng năng" },
+                    { "DM116", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8242), "Dinh dưỡng", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8242), "Thực phẩm chứng năng" }
                 });
 
             migrationBuilder.InsertData(
                 table: "KhoHang",
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "ModifiedBy", "ModifiedDate", "PhienBanSanPhamId", "ViTriLuuTru" },
-                values: new object[] { "KHO001", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5591), null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5591), null, "Chi nhánh mặc định" });
+                values: new object[] { "KHO001", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8415), null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8415), null, "Chi nhánh mặc định" });
 
             migrationBuilder.InsertData(
                 table: "NhaCungCap",
                 columns: new[] { "Id", "CreatedBy", "CreatedDate", "DiaChi", "Email", "ModifiedBy", "ModifiedDate", "QuocGia", "SoDienThoai", "TenNhaCungCap", "ThanhPho", "TrangThaiGiaoDich", "Website" },
-                values: new object[] { "NCC001", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5558), "123 Lê Lợi", "longchaugv@gmail.com", null, new DateTime(2024, 10, 2, 15, 21, 38, 187, DateTimeKind.Local).AddTicks(5560), "Việt Nam", "0123456789", "Nhà thuốc Long Châu", "Hồ Chí Minh", 1, "longchau.com" });
+                values: new object[] { "NCC001", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8389), "123 Lê Lợi", "longchaugv@gmail.com", null, new DateTime(2024, 10, 25, 12, 12, 46, 430, DateTimeKind.Local).AddTicks(8390), "Việt Nam", "0123456789", "Nhà thuốc Long Châu", "Hồ Chí Minh", 1, "longchau.com" });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0ceee5a2-2813-4429-ae0d-ac82db8f7e94", null, "Admin", "ADMIN" },
-                    { "1d7c095a-00b4-41ff-a9e3-57daa5f5767a", null, "Employee", "EMPLOYEE" },
-                    { "cd81f91b-751c-4e0b-8063-30aa0fe1aae1", null, "Customer", "CUSTOMER" }
+                    { "06e20060-4f18-4b24-a3c1-5f240876d506", null, "Employee Online", "EMPLOYEE ONLINE" },
+                    { "1de06f99-b44e-4ebd-9ebb-09e5027cbcc4", null, "Admin", "ADMIN" },
+                    { "308efd73-3dc7-40b4-b550-eda76bbe9dba", null, "Employee POS", "EMPLOYEE POS" },
+                    { "9183fae1-2ff1-4bdc-a2d3-e82636166e55", null, "Customer", "CUSTOMER" },
+                    { "d21e5a9c-7659-49ef-b836-3e4ed44b44e8", null, "Employee Manager", "EMPLOYEE MANAGER" }
                 });
 
             migrationBuilder.CreateIndex(
