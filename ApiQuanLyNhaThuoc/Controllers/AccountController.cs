@@ -111,7 +111,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 {
                     UserName = registerDto.Username,
                     Email = registerDto.EmailAddress,
-                   // Quyen = "CUSTOMER",
+                    Quyen = "CUSTOMER",
                     Ten = registerDto.HoTen,
                     DiaChi = registerDto.DiaChi,
                     ThanhPho = registerDto.ThanhPho,
