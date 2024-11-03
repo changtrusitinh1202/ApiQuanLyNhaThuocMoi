@@ -16,5 +16,32 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         List<KetQuaKhachHangTheoThang> GetSoLuongKhachHangTheoThangTrongNam(int nam);
 
         List<KetQuaTrangThaiHoaDonTheoThang> GetSoLuongTrangThaiHoaDonTheoThangTrongNam(int nam);
+
+        decimal GetTongTienTongQuanTrongHomNay();
+
+        Dictionary<int, double> GetTongDoanhThuTheoGioHomNay();
+        
+        int GetSoLuongKhachHangHomNay();
+
+        int GetTongSoSanPhamNgayHomNay();
+
+        KetQuaTrangThaiHoaDon GetKetQuaTrangThaiHoaDonNgayHomNay();
+
+        Task<List<KetQuaHoaDonMoiNgay>> GetTongTienTheoNgayTrongTuanNay();
+
+        Task<int> GetSoLuongKhachHangTrongTuanNay();
+
+        Task<double> GetSoLuongSanPhamTrongTuanNay();
+
+        Task<KetQuaTrangThaiHoaDon> GetKetQuaTrangThaiHoaDonTrongTuanNay();
+
+        Task<List<KetQuaHoaDonMoiNgay>> GetTongTienTheoNgayTrongThangNay();
+
+        Task<int> GetSoLuongKhachHangTrongThangNay();
+
+        Task<double> GetSoLuongSanPhamTrongThangNay();
+
+        Task<KetQuaTrangThaiHoaDon> GetKetQuaTrangThaiHoaDonTrongThangNay();
+
     }
 }

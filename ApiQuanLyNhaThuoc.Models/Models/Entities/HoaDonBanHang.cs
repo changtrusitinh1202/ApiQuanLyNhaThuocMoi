@@ -19,7 +19,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
 
         [ForeignKey("KhachHang")]
         public string? KhachHangId { get; set; }
-  
+        [JsonIgnore]
         public KhachHang? KhachHang { get; private set; }
 
         [ForeignKey("NhanVien")]

@@ -75,45 +75,53 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             //SendMailConfirm(hoaDonBanHang);
         }
 
-        public void AddHoaDonBanHangOnline(HoaDonBanHang hoaDonBanHang) // khách hàng mua online và có tài khoản
-        {
-            hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang(); // tự tạo mã hóa đơn
-            hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
-            hoaDonBanHang.ModifiedDate = DateTime.Now;
-            hoaDonBanHang.HinhThucMuaHang = "Online";
-            hoaDonBanHang.TrangThaiDonHang = "Đã đặt";
-            hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
-
-            //hình thức thanh toán bao gồm thanh toán trả trước và thanh toán sau khi nhận hàng
-            //hoaDonBanHang.HinhThucThanhToan
-            if(hoaDonBanHang.HinhThucThanhToan == "Thanh toán trả trước")
+            public void AddHoaDonBanHangOnline(HoaDonBanHang hoaDonBanHang) // khách hàng mua online và có tài khoản
             {
-                hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả trước";
-                hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
-            }
-            else // nếu chọn thanh toán sau khi nhận hàng
-            {
-                hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả sau khi nhận hàng";
-                hoaDonBanHang.TrangThaiThanhToan = "Chưa thanh toán";
-            }
+                hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang(); // tự tạo mã hóa đơn
+                hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
+                hoaDonBanHang.ModifiedDate = DateTime.Now;
+                hoaDonBanHang.HinhThucMuaHang = "Online";
+                hoaDonBanHang.TrangThaiDonHang = "Đã đặt";
+                hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
 
-            List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
+                //hình thức thanh toán bao gồm thanh toán trả trước và thanh toán sau khi nhận hàng
+                //hoaDonBanHang.HinhThucThanhToan
+                if(hoaDonBanHang.HinhThucThanhToan == "Thanh toán trả trước")
+                {
+                    hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả trước";
+                    hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
+                }
+                else // nếu chọn thanh toán sau khi nhận hàng
+                {
+                    hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả sau khi nhận hàng";
+                    hoaDonBanHang.TrangThaiThanhToan = "Chưa thanh toán";
+                }
 
-            foreach (var chiTiet in hoaDonBanHang.ChiTietHoaDonBanHangs)
-            {
-                PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
-                chiTiet.Id = GenerateId.TaoMaChiTietHoaDonBanHang();
-                chiTiet.HoaDonId = hoaDonBanHang.Id;
-                chiTiet.Gia = (double)phienBanSanPham.GiaBanQuyDoi;
-                hoaDonBanHang.TongTien = hoaDonBanHang.TongTien + ((decimal)chiTiet.Gia * (decimal)chiTiet.SoLuong);
-                chiTiets.Add(chiTiet);
-            }
-            hoaDonBanHang.ChiTietHoaDonBanHangs = chiTiets;
-            hoaDonBanHang.Thue = 0.1;
-            hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
+                List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
+
+                foreach (var chiTiet in hoaDonBanHang.ChiTietHoaDonBanHangs)
+                {
+                    PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
+                    chiTiet.Id = GenerateId.TaoMaChiTietHoaDonBanHang();
+                    chiTiet.HoaDonId = hoaDonBanHang.Id;
+                    chiTiet.Gia = (double)phienBanSanPham.GiaBanQuyDoi;
+                    hoaDonBanHang.TongTien = hoaDonBanHang.TongTien + ((decimal)chiTiet.Gia * (decimal)chiTiet.SoLuong);
+                    chiTiets.Add(chiTiet);
+                }
+                hoaDonBanHang.ChiTietHoaDonBanHangs = chiTiets;
+                hoaDonBanHang.Thue = 0.1;
+                hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
            
-            db.HoaDonBanHang.Add(hoaDonBanHang);
-            db.SaveChanges();
+                db.HoaDonBanHang.Add(hoaDonBanHang);
+                db.SaveChanges();
+
+                var khachHangId = hoaDonBanHang.KhachHangId;
+                var danhSachSanPhamTrongGio = db.GioHang
+                    .Where(g => g.KhachHangId == khachHangId && hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
+                    .ToList();
+
+                db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
+                db.SaveChanges();
         }
 
         public HoaDonBanHang GetHoaDonBanHangById(string id)
