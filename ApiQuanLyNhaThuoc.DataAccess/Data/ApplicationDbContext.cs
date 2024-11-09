@@ -34,9 +34,13 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Data
         public DbSet<KhachHang> KhachHang { get; set;}
         public DbSet<HoaDonBanHang> HoaDonBanHang { get; set; }
         public DbSet<ChiTietHoaDonBanHang> ChiTietHoaDonBanHang { get; set; }
+        public DbSet<HoaDonBanHangOnline> HoaDonBanHangOnline { get; set; }
+        public DbSet<ChiTietHoaDonBanHangOnline> ChiTietHoaDonBanHangOnline { get; set; }
         public DbSet<KhuyenMai> KhuyenMai { get; set; }
         public DbSet<ChiTietGiamGia> ChiTietGiamGia { get; set; }
         public DbSet<GioHang> GioHang { get; set; }
+        public DbSet<GiaoHang> GiaoHang { get; set; }
+        public DbSet<TrangThaiHoaDonOnline> TrangThaiHoaDonOnline { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

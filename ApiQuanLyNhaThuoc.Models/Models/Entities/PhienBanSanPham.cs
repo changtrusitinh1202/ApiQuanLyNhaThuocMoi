@@ -35,7 +35,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         public string MaVach { get; set; }
         [Required]
         public string MaSanPham { get; set; }
-        public double? KhoiLuong { get; set; }
+        public string? KhoiLuong { get; set; }
         [Required]
         public decimal GiaNhapQuyDoi { get; set; }
         [Required]

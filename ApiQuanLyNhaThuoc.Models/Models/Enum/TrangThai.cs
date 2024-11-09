@@ -24,5 +24,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Enum
         public const string DaXacNhan = "Đã xác nhận";
         public const string DangChuanBi = "Đang chuẩn bị";
         public const string DangVanChuyen = "Đang vận chuyển";
+        public const string DaGiaoHang = "Đã giao hàng";
+        public const string DaHuy = "Đã hủy";
     }
 }

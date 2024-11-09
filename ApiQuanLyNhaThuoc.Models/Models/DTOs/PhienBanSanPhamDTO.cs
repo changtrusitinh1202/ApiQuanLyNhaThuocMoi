@@ -16,7 +16,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.DTOs
         public string DonViQuyDoi { get; set; }
         public double SoLuong { get; set; }
         public string? MaVach { get; set; }
-        public double? KhoiLuong { get; set; }
+        public string? KhoiLuong { get; set; }
         public decimal GiaNhapQuyDoi { get; set; }
         public decimal GiaBanQuyDoi { get; set; }
         public bool TrangThaiBan { get; set; }

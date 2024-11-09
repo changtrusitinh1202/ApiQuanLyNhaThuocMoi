@@ -28,4 +28,8 @@
     <ProjectReference Include="..\ApiQuanLyNhaThuoc.Models\ApiQuanLyNhaThuoc.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PDF\" />
+  </ItemGroup>
+
 </Project>

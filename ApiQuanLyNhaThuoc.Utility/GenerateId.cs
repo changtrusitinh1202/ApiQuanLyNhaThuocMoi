@@ -97,5 +97,11 @@ namespace Utility
             Random random = new Random();
             return "CTGG" + System.DateTime.Now.ToString("ddMMyyyyHHmmss") + random.Next(1000, 9999);
         }
+
+        public static string TaoMaGiaoHang()
+        {
+            Random random = new Random();
+            return "GHN" + System.DateTime.Now.ToString("ddMMyyyyHHmmss") + random.Next(1000, 9999);
+        }
     }
 }

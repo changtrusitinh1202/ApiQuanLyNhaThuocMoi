@@ -1,17 +1,26 @@
 ﻿using ApiQuanLyNhaThuoc.Business.Service.IService;
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
+using ApiQuanLyNhaThuoc.Models.Models.Enum;
+using ApiQuanLyNhaThuoc.Utility;
+using Azure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Internal;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Utility;
 
@@ -31,6 +40,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             this.hostingEnvironment = hostingEnvironment;
             this.emailSender = emailSender;
         }
+
         public void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang, string nhanVienId)
         {
             hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang();
@@ -53,7 +63,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonBanHang.Thue = 0.1;
             hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
             KhachHang? khachHang = db.KhachHang.FirstOrDefault(kh => kh.Id == hoaDonBanHang.KhachHangId);
-            if(khachHang == null) // khách lẻ mua trực tiếp không cho thông tin
+            if (khachHang == null) // khách lẻ mua trực tiếp không cho thông tin
             {
                 hoaDonBanHang.HinhThucThanhToan = "Tiền mặt";
                 hoaDonBanHang.HinhThucMuaHang = "Tại quầy";
@@ -68,61 +78,277 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
                 hoaDonBanHang.TrangThaiDonHang = "Hoàn thành";
             }
-      
+
 
             db.HoaDonBanHang.Add(hoaDonBanHang);
             db.SaveChanges();
             //SendMailConfirm(hoaDonBanHang);
         }
 
-            public void AddHoaDonBanHangOnline(HoaDonBanHang hoaDonBanHang) // khách hàng mua online và có tài khoản
+        public void AddHoaDonBanHangOnline(HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
+        {
+            string content = "";
+            int freeShip = 0;
+            hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang(); // tự tạo mã hóa đơn
+            hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
+            hoaDonBanHang.ModifiedDate = DateTime.Now;
+            hoaDonBanHang.HinhThucMuaHang = "Online";
+            hoaDonBanHang.TrangThaiDonHang = "Đã đặt";
+            hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
+            hoaDonBanHang.NhanVienId = null; // không có nhân viên
+            //hình thức thanh toán bao gồm thanh toán trả trước và thanh toán sau khi nhận hàng
+            //hoaDonBanHang.HinhThucThanhToan
+            if (hoaDonBanHang.HinhThucThanhToan == "Thanh toán trả trước")
             {
-                hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang(); // tự tạo mã hóa đơn
-                hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
-                hoaDonBanHang.ModifiedDate = DateTime.Now;
-                hoaDonBanHang.HinhThucMuaHang = "Online";
-                hoaDonBanHang.TrangThaiDonHang = "Đã đặt";
-                hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
+                hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả trước";
+                hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
+            }
+            else // nếu chọn thanh toán sau khi nhận hàng
+            {
+                hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả sau khi nhận hàng";
+                hoaDonBanHang.TrangThaiThanhToan = "Chưa thanh toán";
+            }
 
-                //hình thức thanh toán bao gồm thanh toán trả trước và thanh toán sau khi nhận hàng
-                //hoaDonBanHang.HinhThucThanhToan
-                if(hoaDonBanHang.HinhThucThanhToan == "Thanh toán trả trước")
+            List<ChiTietHoaDonBanHangOnline> chiTiets = new List<ChiTietHoaDonBanHangOnline>();
+            List<ChiTietHoaDonDTO> chiTietHoaDonDTOs = new List<ChiTietHoaDonDTO>();
+            foreach (var chiTiet in hoaDonBanHang.ChiTietHoaDonBanHangs)
+            {
+                PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
+                ChiTietHoaDonDTO chiTietHoaDonDTO = new ChiTietHoaDonDTO
                 {
-                    hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả trước";
-                    hoaDonBanHang.TrangThaiThanhToan = "Đã thanh toán";
-                }
-                else // nếu chọn thanh toán sau khi nhận hàng
-                {
-                    hoaDonBanHang.HinhThucThanhToan = "Thanh toán trả sau khi nhận hàng";
-                    hoaDonBanHang.TrangThaiThanhToan = "Chưa thanh toán";
-                }
+                    TenHangHoa = phienBanSanPham.TenQuyDoi,
+                    KhoiLuong = ChuyenDoiDonVi.ChuyenDoiDonViKhoiLuong(phienBanSanPham.KhoiLuong) * chiTiet.SoLuong,
+                    SoLuong = chiTiet.SoLuong
+                };
+                chiTietHoaDonDTOs.Add(chiTietHoaDonDTO);
+                chiTiet.Id = GenerateId.TaoMaChiTietHoaDonBanHang();
+                chiTiet.HoaDonId = hoaDonBanHang.Id;
+                chiTiet.Gia = (double)phienBanSanPham.GiaBanQuyDoi;
+                hoaDonBanHang.TongTien = hoaDonBanHang.TongTien + ((decimal)chiTiet.Gia * (decimal)chiTiet.SoLuong);
+                chiTiets.Add(chiTiet);
+            }
+            hoaDonBanHang.ChiTietHoaDonBanHangs = chiTiets;
+            hoaDonBanHang.Thue = 0.1;
 
-                List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
+            var hoaDonCoThue = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
 
-                foreach (var chiTiet in hoaDonBanHang.ChiTietHoaDonBanHangs)
-                {
-                    PhienBanSanPham phienBanSanPham = phienBanSanPhamService.GetPhienBanSanPhamByPhienBanId(chiTiet.PhienBanSanPhamId);
-                    chiTiet.Id = GenerateId.TaoMaChiTietHoaDonBanHang();
-                    chiTiet.HoaDonId = hoaDonBanHang.Id;
-                    chiTiet.Gia = (double)phienBanSanPham.GiaBanQuyDoi;
-                    hoaDonBanHang.TongTien = hoaDonBanHang.TongTien + ((decimal)chiTiet.Gia * (decimal)chiTiet.SoLuong);
-                    chiTiets.Add(chiTiet);
-                }
-                hoaDonBanHang.ChiTietHoaDonBanHangs = chiTiets;
-                hoaDonBanHang.Thue = 0.1;
+
+            CallGHTKApi(hoaDonBanHang, out content, out freeShip, giaoHangDTO, chiTietHoaDonDTOs);
+
+            var jsonResponse = JObject.Parse(content); // trả về dữ liệu json
+            var phiVanChuyen = (decimal?)jsonResponse["order"]?["fee"] ?? 0;
+            var isFreeShip = freeShip;
+            var trackingNumber = (long?)jsonResponse["order"]?["tracking_id"] ?? 0;
+
+            hoaDonBanHang.GiaoHang = new GiaoHang
+            {
+                Id = (string?)jsonResponse["order"]?["label"],
+                MaDonRutGon = (string?)jsonResponse["order"]?["sorting_code"],
+                TenNguoiGui = "Chưa có", // tên nhân viên gửi hàng
+                SoDienThoaiNguoiGui = "0987666111", // số điện thoại nhân viên gửi hàng mặc định
+                DiaChiNguoiGui = "102/19, Lê Lợi", // nơi để shipper lấy hàng
+                QuanHuyenNguoiGui = "Quận Gò Vấp",
+                TinhThanhNguoiGui = "TP. Hồ Chí Minh",
+                TenNguoiNhan = giaoHangDTO.TenNguoiNhan,
+                SoDienThoaiNguoiNhan = giaoHangDTO.SoDienThoaiNguoiNhan,
+                DiaChiNguoiNhan = giaoHangDTO.DiaChiNguoiNhan,
+                XaPhuongNguoiNhan = giaoHangDTO.XaPhuongNguoiNhan,
+                QuanHuyenNguoiNhan = giaoHangDTO.QuanHuyenNguoiNhan,
+                TinhThanhNguoiNhan = giaoHangDTO.TinhThanhNguoiNhan,
+                TrackingNumber = trackingNumber,
+                ThoiGianLayHangDuKien = (string?)jsonResponse["order"]?["estimated_pick_time"],
+                ThoiGianGiaoHangDuKien = (string?)jsonResponse["order"]?["estimated_deliver_time"]
+            };
+
+            if (isFreeShip == 0)
+            {
+                hoaDonBanHang.PhiVanChuyen = phiVanChuyen;
+                hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue) + phiVanChuyen;
+            }
+
+            else
                 hoaDonBanHang.ThanhTien = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
-           
-                db.HoaDonBanHang.Add(hoaDonBanHang);
-                db.SaveChanges();
 
-                var khachHangId = hoaDonBanHang.KhachHangId;
-                var danhSachSanPhamTrongGio = db.GioHang
-                    .Where(g => g.KhachHangId == khachHangId && hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
-                    .ToList();
+            hoaDonBanHang.Timeline = hoaDonBanHang.Timeline
+                .Where(t => t.Status != "string")
+                .ToList();
 
-                db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
-                db.SaveChanges();
+            hoaDonBanHang.Timeline.Add(new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonBanHang.Id,
+                Status = "Đã đặt",
+                ThoiGian = DateTime.Now
+            });
+    
+            
+            db.HoaDonBanHangOnline.Add(hoaDonBanHang);
+            db.SaveChanges();
+
+
+
+
+            var khachHangId = hoaDonBanHang.KhachHangId;
+            var danhSachSanPhamTrongGio = db.GioHang
+                 .Where(g => g.KhachHangId == khachHangId)
+                 .AsEnumerable() 
+                 .Where(g => hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
+                 .ToList();
+
+            db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
+            db.SaveChanges();
+
+
         }
+
+        private static void CallGHTKApi(HoaDonBanHangOnline hoaDonBanHang, out string content, out int freeShip, GiaoHangDTO giaoHangDTO, List<ChiTietHoaDonDTO> chiTietHoaDonDTOs)
+        {
+            content = "";
+            freeShip = 0;
+            var hoaDonGomThue = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
+            if (hoaDonGomThue > 500000) // nếu tổng tiền lớn hơn 500k thì freeship (đã bao gồm thuế)
+                giaoHangDTO.FreeShip = 1;
+            else
+                giaoHangDTO.FreeShip = 0;
+
+            var requestData = new
+            {
+                products = chiTietHoaDonDTOs.Select(p => new
+                {
+                    name = p?.TenHangHoa,
+                    weight = p?.KhoiLuong,
+                    quantity = p?.SoLuong
+                }).ToList(),
+                order = new
+                {
+                    id = hoaDonBanHang.Id,
+                    pick_name = "Chưa có", //tên nhân viên gửi hàng
+                    pick_address = "102/19, Lê Lợi", // nơi để shipper lấy hàng
+                    pick_province = "TP. Hồ Chí Minh",
+                    pick_district = "Quận Gò Vấp",
+                    pick_ward = "Phường 4",
+                    pick_tel = "0987666111", //số điện thoại nhân viên gửi hàng mặc định
+                    tel = giaoHangDTO.SoDienThoaiNguoiNhan,
+                    name = giaoHangDTO.TenNguoiNhan,
+                    address = giaoHangDTO.DiaChiNguoiNhan,
+                    province = giaoHangDTO.TinhThanhNguoiNhan,
+                    district = giaoHangDTO.QuanHuyenNguoiNhan,
+                    ward = giaoHangDTO.QuanHuyenNguoiNhan,
+                    hamlet = "Khác",
+                    is_freeship = giaoHangDTO.FreeShip,
+                    pick_money = hoaDonGomThue,
+                    value = hoaDonGomThue,
+                    pick_option = "cod",
+                    deliver_option = "xfast"
+                }
+            };
+            freeShip = giaoHangDTO.FreeShip ?? 0;
+
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Token", "3f4176ed163e26e0c511c1dc5df9bdc273ff64cf");
+                httpClient.DefaultRequestHeaders.Add("X-Client-Source", "S308157");
+
+                var jsonContent = JsonConvert.SerializeObject(requestData);
+                var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+
+                var orderResponse = httpClient.PostAsync("https://services.giaohangtietkiem.vn/services/shipment/order", contentString).Result;
+                long trackingNumber = 0;
+
+
+
+                var responseString = orderResponse.Content.ReadAsStringAsync().Result;
+                var jsonResponse = JObject.Parse(responseString);
+                content = responseString;
+                trackingNumber = (long?)jsonResponse["order"]?["tracking_id"] ?? 0;
+
+
+                //var request = new HttpRequestMessage(HttpMethod.Get,
+                //   $"https://services.giaohangtietkiem.vn/services/label/{trackingNumber}?original=true&paper_size=A5");
+
+
+                //request.Headers.Add("Token", "3f4176ed163e26e0c511c1dc5df9bdc273ff64cf");
+                //request.Headers.Add("X-Client-Source", "S308157");
+
+
+                var response1 = httpClient.PostAsync($"https://services.giaohangtietkiem.vn/services/shipment/cancel/{trackingNumber}", contentString).Result;
+
+            }
+        }
+
+
+        public static void HuyDonHang(int trackingNumber)
+        {
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Token", "3f4176ed163e26e0c511c1dc5df9bdc273ff64cf");
+                httpClient.DefaultRequestHeaders.Add("X-Client-Source", "S308157");
+
+                var jsonContent = JsonConvert.SerializeObject(null);
+                var contentString = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = httpClient.PostAsync($"https://services.giaohangtietkiem.vn/services/shipment/cancel/{trackingNumber}", contentString).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Đã hủy đơn hàng thành công!");
+                }
+                else
+                {
+                    Console.WriteLine("Lỗi khi hủy đơn hàng: " + response.StatusCode);
+                }
+            }
+        }
+
+        public void LuuFilePdf(long trackingNumber)
+        {
+            var giaoHang = db.GiaoHang.FirstOrDefault(g => g.TrackingNumber == trackingNumber);
+            using (var httpClient = new HttpClient())
+            {
+           
+                var request = new HttpRequestMessage(HttpMethod.Get,
+                    $"https://services.giaohangtietkiem.vn/services/label/{giaoHang.TrackingNumber}");
+
+           
+                request.Headers.Add("Token", "3f4176ed163e26e0c511c1dc5df9bdc273ff64cf");
+                request.Headers.Add("X-Client-Source", "S308157");
+
+            
+                var response = httpClient.SendAsync(request).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                 
+                    string folderPath = @"C:\Users\Admin\Downloads";
+                    byte[] pdfBytes = response.Content.ReadAsByteArrayAsync().Result;
+                    string filePath = Path.Combine(folderPath, $"{trackingNumber}_label.pdf");
+
+        
+                    File.WriteAllBytes(filePath, pdfBytes);
+                    Console.WriteLine("File đã được tải về và lưu thành công!");
+                }
+                else
+                {
+                    Console.WriteLine("Lỗi khi tải file: " + response.StatusCode);
+                }
+            }
+        }
+
+
+        public static void TaoFolder()
+        {
+
+            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "ApiQuanLyNhaThuoc.DataAccess", "PDF");
+
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+        }
+
+
 
         public HoaDonBanHang GetHoaDonBanHangById(string id)
         {
@@ -169,6 +395,110 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             emailSender.SendEmailAsync("phamhagiahuy1708@gmail.com", "Đơn đặt hàng của bạn", contentCustomer);
         }
 
+        public void XacNhanDonHang(string hoaDonId)
+        {
+            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var trangThaiHoaDon = new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonId,
+                Status = TrangThai.DaXacNhan,
+                ThoiGian = DateTime.Now
+            };
+
+            if (hoaDon != null)
+            {
+                hoaDon.TrangThaiDonHang = TrangThai.DaXacNhan;
+                db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
+                db.SaveChanges();
+            }
+        }
+
+        public void XacNhanChuanBiHang(string hoaDonId)
+        {
+            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var trangThaiHoaDon = new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonId,
+                Status = TrangThai.DangChuanBi,
+                ThoiGian = DateTime.Now
+            };
+
+            if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DaXacNhan)
+            {
+                hoaDon.TrangThaiDonHang = TrangThai.DangChuanBi;
+                db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
+                db.SaveChanges();
+            }
+        }
+
+        public void XacNhanVanChuyen(string hoaDonId)
+        {
+            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var trangThaiHoaDon = new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonId,
+                Status = TrangThai.DangVanChuyen,
+                ThoiGian = DateTime.Now
+            };
+
+            if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DangChuanBi)
+            {
+                hoaDon.TrangThaiDonHang = TrangThai.DangVanChuyen;
+                db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
+                db.SaveChanges();
+            }
+        }
+
      
+
+        public void XacNhanDaGiaoHang(string hoaDonId)
+        {
+            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var trangThaiHoaDon = new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonId,
+                Status = TrangThai.DaGiaoHang,
+                ThoiGian = DateTime.Now
+            };
+
+            if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DangVanChuyen)
+            {
+                hoaDon.TrangThaiDonHang = TrangThai.DaGiaoHang;
+                db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
+                db.SaveChanges();
+            }
+        }
+
+        public void XacNhanHuyDonHang(string hoaDonId)
+        {
+            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var trangThaiHoaDon = new TrangThaiHoaDonOnline
+            {
+                HoaDonBanHangOnlineId = hoaDonId,
+                Status = TrangThai.DaHuy,
+                ThoiGian = DateTime.Now
+            };
+
+            if (hoaDon != null)
+            {
+                if(hoaDon.TrangThaiDonHang == TrangThai.DaGiaoHang || hoaDon.TrangThaiDonHang == TrangThai.DangVanChuyen)
+                {
+                    throw new Exception("Đơn đã vận chuyển hoặc đã giao không thể hủy");
+              
+                }
+                else if(hoaDon.TrangThaiDonHang == TrangThai.DaHuy)
+                    throw new Exception("Đơn hàng này đã được hủy trước đó");
+                else
+                {
+                    hoaDon.TrangThaiDonHang = TrangThai.DaHuy;
+                    db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
+                    db.SaveChanges();
+                }
+                
+              
+            }
+        }
+
+       
     }
 }
