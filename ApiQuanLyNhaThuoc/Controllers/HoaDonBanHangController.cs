@@ -34,15 +34,24 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpPost("AddHoaDonBanHangOnline")]
-        public IActionResult AddHoaDonBanHangOnline([FromBody] HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHang)
+        public IActionResult AddHoaDonBanHangOnline([FromBody] HoaDonBanHangOnline hoaDonBanHang, string token,GiaoHangDTO giaoHang)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                hoaDonBanHangService.AddHoaDonBanHangOnline(hoaDonBanHang, giaoHang);
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                hoaDonBanHangService.AddHoaDonBanHangOnline(token ,hoaDonBanHang, giaoHang);
 
                 return Ok(hoaDonBanHang);
             }
-            return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); // Trả về thông báo lỗi trong Exception
+            }
+         
         }
 
 
@@ -122,6 +131,48 @@ namespace ApiQuanLyNhaThuoc.Controllers
                 return BadRequest(ex.Message); // Trả về thông báo lỗi trong Exception
             }
          
+        }
+
+        [HttpGet("GetHoaDonBanHangOnline")]
+        public IActionResult GetHoaDonBanHangOnline()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangs();
+            return Ok(hoaDonBanHangs);
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineDaDat")]
+        public IActionResult GetHoaDonBanHangOnlineDaDat()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineDaDat();
+            return Ok(hoaDonBanHangs);
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineXacNhanDon")]
+        public IActionResult GetHoaDonBanHangOnlineXacNhanDon()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineXacNhanDon();
+            return Ok(hoaDonBanHangs);
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineChuanBiHang")]
+        public IActionResult GetHoaDonBanHangOnlineChuanBiHang()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineChuanBiHang();
+            return Ok(hoaDonBanHangs);
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineVanChuyen")]
+        public IActionResult GetHoaDonBanHangOnlineVanChuyen()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineVanChuyen();
+            return Ok(hoaDonBanHangs);
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineDaGiao")]
+        public IActionResult GetHoaDonBanHangOnlineDaGiao()
+        {
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineDaGiao();
+            return Ok(hoaDonBanHangs);
         }
 
     }

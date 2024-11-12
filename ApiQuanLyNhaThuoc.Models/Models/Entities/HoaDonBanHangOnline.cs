@@ -64,7 +64,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         public string? GiaoHangId { get; set; }
         public GiaoHang? GiaoHang { get; set; }
 
-        public List<TrangThaiHoaDonOnline> Timeline { get; set; }
+        public List<TrangThaiHoaDonOnline>? Timeline { get; set; }
 
 
         public void AddTimelineStatus(string status)

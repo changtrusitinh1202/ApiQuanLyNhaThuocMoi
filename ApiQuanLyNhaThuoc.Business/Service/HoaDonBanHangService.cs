@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,16 +31,23 @@ namespace ApiQuanLyNhaThuoc.Business.Service
     {
         ApplicationDbContext db;
         public IPhienBanSanPhamService phienBanSanPhamService;
+        private readonly IServiceProvider serviceProvider;
         IWebHostEnvironment hostingEnvironment;
         IEmailSender emailSender;
         public string css = "width = \"25%\" style=\"padding: 10px; word-break: break-word; border-top: 1px solid transparent; border-right: 1px solid transparent; border-bottom: 1px solid transparent; border-left: 1px solid transparent;\"";
-        public HoaDonBanHangService(ApplicationDbContext db, IPhienBanSanPhamService phienBanSanPhamService, IWebHostEnvironment hostingEnvironment, IEmailSender emailSender)
+        public HoaDonBanHangService(ApplicationDbContext db, 
+            IPhienBanSanPhamService phienBanSanPhamService, 
+            IServiceProvider serviceProvider,
+            IWebHostEnvironment hostingEnvironment, IEmailSender emailSender)
         {
             this.db = db;
             this.phienBanSanPhamService = phienBanSanPhamService;
             this.hostingEnvironment = hostingEnvironment;
+            this.serviceProvider = serviceProvider;
             this.emailSender = emailSender;
         }
+
+        private IKhachHangService KhachHangService => serviceProvider.GetService<IKhachHangService>();
 
         public void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang, string nhanVienId)
         {
@@ -85,11 +93,13 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             //SendMailConfirm(hoaDonBanHang);
         }
 
-        public void AddHoaDonBanHangOnline(HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
+        public void AddHoaDonBanHangOnline(string token,  HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
         {
             string content = "";
             int freeShip = 0;
+            KhachHangDTO khachHang = KhachHangService.GetKhachHangByToken(token);
             hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang(); // tự tạo mã hóa đơn
+            hoaDonBanHang.KhachHangId = khachHang.Id; // lấy id khách hàng từ token
             hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
             hoaDonBanHang.ModifiedDate = DateTime.Now;
             hoaDonBanHang.HinhThucMuaHang = "Online";
@@ -132,6 +142,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var hoaDonCoThue = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
 
+            if(hoaDonBanHang.TongTien <= 10000)
+                throw new Exception("Giao hàng online không hỗ trợ giao các hóa đơn nhỏ hơn 10.000 đ");
 
             CallGHTKApi(hoaDonBanHang, out content, out freeShip, giaoHangDTO, chiTietHoaDonDTOs);
 
@@ -301,52 +313,6 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             }
         }
 
-        public void LuuFilePdf(long trackingNumber)
-        {
-            var giaoHang = db.GiaoHang.FirstOrDefault(g => g.TrackingNumber == trackingNumber);
-            using (var httpClient = new HttpClient())
-            {
-           
-                var request = new HttpRequestMessage(HttpMethod.Get,
-                    $"https://services.giaohangtietkiem.vn/services/label/{giaoHang.TrackingNumber}");
-
-           
-                request.Headers.Add("Token", "3f4176ed163e26e0c511c1dc5df9bdc273ff64cf");
-                request.Headers.Add("X-Client-Source", "S308157");
-
-            
-                var response = httpClient.SendAsync(request).Result;
-
-                if (response.IsSuccessStatusCode)
-                {
-                 
-                    string folderPath = @"C:\Users\Admin\Downloads";
-                    byte[] pdfBytes = response.Content.ReadAsByteArrayAsync().Result;
-                    string filePath = Path.Combine(folderPath, $"{trackingNumber}_label.pdf");
-
-        
-                    File.WriteAllBytes(filePath, pdfBytes);
-                    Console.WriteLine("File đã được tải về và lưu thành công!");
-                }
-                else
-                {
-                    Console.WriteLine("Lỗi khi tải file: " + response.StatusCode);
-                }
-            }
-        }
-
-
-        public static void TaoFolder()
-        {
-
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "ApiQuanLyNhaThuoc.DataAccess", "PDF");
-
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-        }
 
 
 
@@ -499,6 +465,72 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             }
         }
 
-       
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangs()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()             
+                .Include(g => g.GiaoHang)
+                .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaDat()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+                .Include(kh => kh.KhachHang)
+                .Include(g => g.GiaoHang)
+                .Where(hd => hd.TrangThaiDonHang == TrangThai.DaDat)
+                .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineXacNhanDon()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+             .Include(kh => kh.KhachHang)
+             .Include(g => g.GiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaXacNhan)
+             .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChuanBiHang()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+             .Include(kh => kh.KhachHang)
+             .Include(g => g.GiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangChuanBi)
+             .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineVanChuyen()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+             .Include(kh => kh.KhachHang)
+             .Include(g => g.GiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangVanChuyen)
+             .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaGiao()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+             .Include(kh => kh.KhachHang)
+             .Include(g => g.GiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaGiaoHang)
+             .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineHuyDon()
+        {
+            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+             .Include(kh => kh.KhachHang)
+             .Include(g => g.GiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaHuy)
+             .ToList();
+            return hoaDons;
+        }
     }
 }

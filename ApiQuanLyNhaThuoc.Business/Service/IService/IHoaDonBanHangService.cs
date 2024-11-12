@@ -11,8 +11,16 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
     public interface IHoaDonBanHangService
     {
         void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang, string nhanVienId);
-        void AddHoaDonBanHangOnline(HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO);
+        void AddHoaDonBanHangOnline(string token, HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO);
         HoaDonBanHang GetHoaDonBanHangById(string id);
+
+        List<HoaDonBanHangOnline> GetHoaDonBanHangs();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaDat();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineXacNhanDon();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChuanBiHang();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineVanChuyen();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaGiao();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineHuyDon();
 
         void XacNhanDonHang(string hoaDonId);
         void XacNhanChuanBiHang(string hoaDonId);
