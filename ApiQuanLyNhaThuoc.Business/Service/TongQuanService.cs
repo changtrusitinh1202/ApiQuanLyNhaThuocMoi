@@ -44,7 +44,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
         {
             var result = db.HoaDonBanHang
               .Where(h => h.TrangThaiDonHang == TrangThai.HoanThanh ||
-                          h.TrangThaiDonHang == TrangThai.DaDat ||
+                          h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
                           h.TrangThaiDonHang == TrangThai.DangVanChuyen)
               .GroupBy(h => new { Year = h.CreatedDate.Year, Month = h.CreatedDate.Month })
               .Select(g => new KetQuaTrangThaiHoaDonTheoThang
@@ -52,7 +52,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                   Nam = g.Key.Year,
                   Thang = g.Key.Month,
                   SoLuongHoanThanh = g.Count(h => h.TrangThaiDonHang == TrangThai.HoanThanh),
-                  SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.DaDat),
+                  SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.ChoXacNhan),
                   SoLuongDangVanChuyen = g.Count(h => h.TrangThaiDonHang == TrangThai.DangVanChuyen)
               })
               .OrderBy(o => o.Nam)
@@ -178,14 +178,14 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var result = db.HoaDonBanHang
                 .Where(h => (h.TrangThaiDonHang == TrangThai.HoanThanh ||
-                             h.TrangThaiDonHang == TrangThai.DaDat ||
+                             h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
                              h.TrangThaiDonHang == TrangThai.DangVanChuyen) &&
                              h.ModifiedDate.Date == today) 
                 .GroupBy(h => 1) 
                 .Select(g => new KetQuaTrangThaiHoaDon
                 {
                     SoLuongHoanThanh = g.Count(h => h.TrangThaiDonHang == TrangThai.HoanThanh),
-                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.DaDat),
+                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.ChoXacNhan),
                     SoLuongDangVanChuyen = g.Count(h => h.TrangThaiDonHang == TrangThai.DangVanChuyen)
                 })
                 .FirstOrDefault() ?? new KetQuaTrangThaiHoaDon(); 
@@ -270,14 +270,14 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var result = await db.HoaDonBanHang
                 .Where(h => (h.TrangThaiDonHang == TrangThai.HoanThanh ||
-                             h.TrangThaiDonHang == TrangThai.DaDat ||
+                             h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
                              h.TrangThaiDonHang == TrangThai.DangVanChuyen) &&
                              h.ModifiedDate >= startOfWeek && h.ModifiedDate <= endOfWeek)
                 .GroupBy(h => 1)
                 .Select(g => new KetQuaTrangThaiHoaDon
                 {
                     SoLuongHoanThanh = g.Count(h => h.TrangThaiDonHang == TrangThai.HoanThanh),
-                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.DaDat),
+                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.ChoXacNhan),
                     SoLuongDangVanChuyen = g.Count(h => h.TrangThaiDonHang == TrangThai.DangVanChuyen)
                 })
                 .FirstOrDefaultAsync() ?? new KetQuaTrangThaiHoaDon();
@@ -324,14 +324,14 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var result = await db.HoaDonBanHang
                 .Where(h => (h.TrangThaiDonHang == TrangThai.HoanThanh ||
-                             h.TrangThaiDonHang == TrangThai.DaDat ||
+                             h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
                              h.TrangThaiDonHang == TrangThai.DangVanChuyen) &&
                              h.ModifiedDate >= startOfMonth && h.ModifiedDate <= endOfMonth)
                 .GroupBy(h => 1)
                 .Select(g => new KetQuaTrangThaiHoaDon
                 {
                     SoLuongHoanThanh = g.Count(h => h.TrangThaiDonHang == TrangThai.HoanThanh),
-                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.DaDat),
+                    SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.ChoXacNhan),
                     SoLuongDangVanChuyen = g.Count(h => h.TrangThaiDonHang == TrangThai.DangVanChuyen)
                 })
                 .FirstOrDefaultAsync() ?? new KetQuaTrangThaiHoaDon();

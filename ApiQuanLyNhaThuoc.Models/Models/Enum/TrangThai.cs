@@ -20,7 +20,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Enum
         public const string GiaoDich = "Đang giao dịch";
         public const string NgungGiaoDich = "Ngừng giao dịch";
         // Dùng cho hóa đơn bán hàng (đặt hàng online)
-        public const string DaDat = "Đã đặt";       
+        public const string ChoXacNhan = "Chờ xác nhận";       
         public const string DaXacNhan = "Đã xác nhận";
         public const string DangChuanBi = "Đang chuẩn bị";
         public const string DangVanChuyen = "Đang vận chuyển";

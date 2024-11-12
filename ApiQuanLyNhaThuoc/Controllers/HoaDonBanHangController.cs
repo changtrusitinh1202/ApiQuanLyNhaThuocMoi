@@ -175,6 +175,25 @@ namespace ApiQuanLyNhaThuoc.Controllers
             return Ok(hoaDonBanHangs);
         }
 
+        [HttpGet("GetHoaDonBanHangOnlineByTokenKhachHang")]
+        public IActionResult GetHoaDonBanHangOnlineByTokenKhachHang(string token)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                List<HoaDonBanHangOnline> hoaDons =  hoaDonBanHangService.GetHoaDonBanHangOnlineOfKhachHang(token);
+                return Ok(hoaDons);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Bạn chưa có đơn hàng nào"); 
+            }
+
+        }
     }
 
 }

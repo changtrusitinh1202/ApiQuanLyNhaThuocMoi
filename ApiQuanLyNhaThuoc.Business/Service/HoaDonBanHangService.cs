@@ -103,7 +103,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
             hoaDonBanHang.ModifiedDate = DateTime.Now;
             hoaDonBanHang.HinhThucMuaHang = "Online";
-            hoaDonBanHang.TrangThaiDonHang = "Đã đặt";
+            hoaDonBanHang.TrangThaiDonHang = TrangThai.ChoXacNhan;
             hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
             hoaDonBanHang.NhanVienId = null; // không có nhân viên
             //hình thức thanh toán bao gồm thanh toán trả trước và thanh toán sau khi nhận hàng
@@ -473,12 +473,12 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaDat()
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChoXacNhan()
         {
             List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
                 .Include(kh => kh.KhachHang)
                 .Include(g => g.GiaoHang)
-                .Where(hd => hd.TrangThaiDonHang == TrangThai.DaDat)
+                .Where(hd => hd.TrangThaiDonHang == TrangThai.ChoXacNhan)
                 .ToList();
             return hoaDons;
         }
@@ -531,6 +531,25 @@ namespace ApiQuanLyNhaThuoc.Business.Service
              .Where(hd => hd.TrangThaiDonHang == TrangThai.DaHuy)
              .ToList();
             return hoaDons;
+        }
+
+        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineOfKhachHang(string token)
+        {
+            KhachHangDTO khachHangDTO = KhachHangService.GetKhachHangByToken(token);
+            if(khachHangDTO == null)
+            {
+                throw new Exception("Không tìm thấy khách hàng");
+            }
+            else
+            {
+                List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+                  .Include(kh => kh.KhachHang)
+                  .Include(g => g.GiaoHang)
+                  .Where(hd => hd.KhachHangId == khachHangDTO.Id)
+                  .ToList();
+                return hoaDons;
+            }
+         
         }
     }
 }

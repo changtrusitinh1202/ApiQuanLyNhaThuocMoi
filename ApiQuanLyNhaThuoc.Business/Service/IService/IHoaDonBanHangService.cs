@@ -15,7 +15,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         HoaDonBanHang GetHoaDonBanHangById(string id);
 
         List<HoaDonBanHangOnline> GetHoaDonBanHangs();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaDat();
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChoXacNhan();
         List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineXacNhanDon();
         List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChuanBiHang();
         List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineVanChuyen();
@@ -27,6 +27,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         void XacNhanVanChuyen(string hoaDonId);
         void XacNhanDaGiaoHang(string hoaDonId);
         void XacNhanHuyDonHang(string hoaDonId);
+
+        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineOfKhachHang(string token);
 
 
         void SendMailConfirm(HoaDonBanHang hoaDonBanHang);
