@@ -30,7 +30,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
 
         List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineOfKhachHang(string token);
 
-
+        HoaDonBanHangOnline GetHoaDonBanHangOnlineById(string hoaDonId);
         void SendMailConfirm(HoaDonBanHang hoaDonBanHang);
     }
 }

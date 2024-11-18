@@ -140,10 +140,10 @@ namespace ApiQuanLyNhaThuoc.Controllers
             return Ok(hoaDonBanHangs);
         }
 
-        [HttpGet("GetHoaDonBanHangOnlineDaDat")]
-        public IActionResult GetHoaDonBanHangOnlineDaDat()
+        [HttpGet("GetHoaDonBanHangOnlineChoXacNhan")]
+        public IActionResult GetHoaDonBanHangOnlineChoXacNhan()
         {
-            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineDaDat();
+            var hoaDonBanHangs = hoaDonBanHangService.GetHoaDonBanHangOnlineChoXacNhan();
             return Ok(hoaDonBanHangs);
         }
 
@@ -191,6 +191,26 @@ namespace ApiQuanLyNhaThuoc.Controllers
             catch (Exception ex)
             {
                 return BadRequest("Bạn chưa có đơn hàng nào"); 
+            }
+
+        }
+
+        [HttpGet("GetHoaDonBanHangOnlineByID")]
+        public IActionResult GetHoaDonBanHangOnlineByID(string hoaDonId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                HoaDonBanHangOnline hoaDon = hoaDonBanHangService.GetHoaDonBanHangOnlineById(hoaDonId);
+                return Ok(hoaDon);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Không tìm thấy đơn hàng"); 
             }
 
         }

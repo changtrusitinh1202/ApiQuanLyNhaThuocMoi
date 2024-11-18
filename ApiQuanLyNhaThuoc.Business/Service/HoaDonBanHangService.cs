@@ -551,5 +551,19 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             }
          
         }
+
+        public HoaDonBanHangOnline GetHoaDonBanHangOnlineById(string hoaDonId)
+        {
+            HoaDonBanHangOnline? hoaDonBanHangOnline = db.HoaDonBanHangOnline
+                .Include(kh => kh.KhachHang)
+                .Include(g => g.GiaoHang)
+                .Include(ct => ct.ChiTietHoaDonBanHangs)
+                .ThenInclude(p => p.PhienBanSanPham)
+                .Include(time => time.Timeline)
+                .FirstOrDefault(hd => hd.Id == hoaDonId);
+            return hoaDonBanHangOnline;
+        }
+
+      
     }
 }

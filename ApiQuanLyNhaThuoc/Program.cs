@@ -104,6 +104,7 @@ builder.Services.AddScoped<INhanVienService, NhanVienService>();
 builder.Services.AddScoped<IKhachHangService, KhachHangService>();
 builder.Services.AddScoped<ITongQuanService, TongQuanService>();
 builder.Services.AddScoped<IGioHangService, GioHangService>();
+builder.Services.AddScoped<IDiaChiKhachHangService, DiaChiKhachHangService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddSingleton<JwtTokenProvider>();

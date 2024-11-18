@@ -41,6 +41,7 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Data
         public DbSet<GioHang> GioHang { get; set; }
         public DbSet<GiaoHang> GiaoHang { get; set; }
         public DbSet<TrangThaiHoaDonOnline> TrangThaiHoaDonOnline { get; set; }
+        public DbSet<DiaChiKhachHang> DiaChiKhachHang { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

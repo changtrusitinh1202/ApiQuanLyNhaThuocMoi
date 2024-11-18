@@ -10,7 +10,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.ViewModel
     public class HoaDonBanHangOnlineVM
     {
         public List<HoaDonBanHangOnline> HoaDonBanHangs { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangDaDat { get; set; }
+        public List<HoaDonBanHangOnline> HoaDonBanHangChoXacNhan { get; set; }
         public List<HoaDonBanHangOnline> HoaDonBanHangXacNhanDon { get; set; }
         public List<HoaDonBanHangOnline> HoaDonBanHangChuanBiHang { get; set; }
         public List<HoaDonBanHangOnline> HoaDonBanHangVanChuyen { get; set; }
