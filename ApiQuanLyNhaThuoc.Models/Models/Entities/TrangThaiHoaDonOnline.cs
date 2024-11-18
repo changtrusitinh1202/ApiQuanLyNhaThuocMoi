@@ -23,7 +23,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         public DateTime ThoiGian { get; set; }  
 
-
+        public string? GhiChu { get; set; }
 
     }
 }

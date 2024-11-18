@@ -16,5 +16,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         public DiaChiKhachHang LayDiaChiKhachHang(string khachHangId, int diaChiKhachHangId);
         public List<DiaChiKhachHang> LayDanhSachDiaChiKhachHang(string khachHangId);
 
+        public void SetDefaultDiaChiKhachHang(string khachHangId, int diaChiKhachHangId);
+
     }
 }

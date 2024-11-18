@@ -81,5 +81,40 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             DiaChiKhachHang? diaChiKhachHang = db.DiaChiKhachHang.FirstOrDefault(x => x.Id == diaChiKhachHangId && x.KhachHangId == khachHangId);
             return diaChiKhachHang;
         }
+
+        public void SetDefaultDiaChiKhachHang(string khachHangId, int diaChiKhachHangId)
+        {
+   
+            var diaChiKhachHangList = db.DiaChiKhachHang
+                .Where(dc => dc.KhachHangId == khachHangId)
+                .ToList();
+
+            if (!diaChiKhachHangList.Any())
+            {
+                throw new Exception($"Khách hàng với ID '{khachHangId}' không có địa chỉ nào trong hệ thống.");
+            }
+
+
+            var diaChiKhachHangMoi = diaChiKhachHangList.FirstOrDefault(dc => dc.Id == diaChiKhachHangId);
+            if (diaChiKhachHangMoi == null)
+            {
+                throw new Exception($"Không tìm thấy địa chỉ với ID '{diaChiKhachHangId}' cho khách hàng '{khachHangId}'.");
+            }
+
+    
+            foreach (var diaChi in diaChiKhachHangList)
+            {
+                if (diaChi.MacDinh)
+                {
+                    diaChi.MacDinh = false;
+                }
+            }
+
+
+            diaChiKhachHangMoi.MacDinh = true;
+
+ 
+            db.SaveChanges();
+        }
     }
 }

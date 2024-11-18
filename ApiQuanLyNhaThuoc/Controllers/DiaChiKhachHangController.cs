@@ -61,5 +61,23 @@ namespace ApiQuanLyNhaThuoc.Controllers
             List<DiaChiKhachHang> diaChiKhachHangs = diaChiKhachHangService.LayDanhSachDiaChiKhachHang(khachHangId);
             return Ok(diaChiKhachHangs);
         }
+
+        [HttpGet("LayDiaChiKhachHang")]
+        public IActionResult LayDiaChiKhachHang(string khachHangId, int diaChiKhachHangId)
+        {
+            DiaChiKhachHang diaChiKhachHang = diaChiKhachHangService.LayDiaChiKhachHang(khachHangId, diaChiKhachHangId);
+            return Ok(diaChiKhachHang);
+        }
+
+        [HttpPut("SetDefaultDiaChiKhachHang")]
+        public IActionResult SetDefaultDiaChiKhachHang(string khachHangId, int diaChiKhachHangId)
+        {
+            if (ModelState.IsValid)
+            {
+                diaChiKhachHangService.SetDefaultDiaChiKhachHang(khachHangId, diaChiKhachHangId);
+                return Ok("Đặt địa chỉ mặc định thành công");
+            }
+            return BadRequest(ModelState);
+        }
     }
 }
