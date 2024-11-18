@@ -25,6 +25,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             KhachHang khachHang = khachHangService.GetKhachHangByID(khachHangId);
             diaChiKhachHang.KhachHangId = khachHangId;
             diaChiKhachHang.CreatedDate = DateTime.Now;
+            diaChiKhachHang.MacDinh = false;
             db.DiaChiKhachHang.Add(diaChiKhachHang);
             db.SaveChanges();
         }
