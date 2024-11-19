@@ -189,7 +189,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonBanHang.Id,
                 Status = "Đã đặt",
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được đặt"
             });
     
             
@@ -368,7 +369,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonId,
                 Status = TrangThai.DaXacNhan,
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được nhân viên xác nhận"
             };
 
             if (hoaDon != null)
@@ -386,7 +388,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonId,
                 Status = TrangThai.DangChuanBi,
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được chuẩn bị"
             };
 
             if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DaXacNhan)
@@ -404,7 +407,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonId,
                 Status = TrangThai.DangVanChuyen,
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được giao cho đơn vị vận chuyển"
             };
 
             if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DangChuanBi)
@@ -424,7 +428,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonId,
                 Status = TrangThai.DaGiaoHang,
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được giao thành công"
             };
 
             if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DangVanChuyen)
@@ -442,7 +447,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             {
                 HoaDonBanHangOnlineId = hoaDonId,
                 Status = TrangThai.DaHuy,
-                ThoiGian = DateTime.Now
+                ThoiGian = DateTime.Now,
+                GhiChu = "Đơn hàng đã được hủy"
             };
 
             if (hoaDon != null)

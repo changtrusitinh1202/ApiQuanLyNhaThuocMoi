@@ -137,6 +137,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                     SoLuong = x.SoLuong,
                     Gia = x.Gia,
                     TenSanPham = x.PhienBanSanPham.TenQuyDoi, 
+                    KhoiLuong = x.PhienBanSanPham.KhoiLuong,
                     HinhAnh = x.PhienBanSanPham.SanPham.AnhSanPham 
                 })
                 .ToList();

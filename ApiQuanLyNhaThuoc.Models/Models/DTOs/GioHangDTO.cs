@@ -12,6 +12,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.DTOs
         public string PhienBanSanPhamId { get; set; }
         public string KhachHangId { get; set; }
         public string TenSanPham { get; set; }
+        public string KhoiLuong { get; set; }
         public string? HinhAnh { get; set; }
         public decimal Gia { get; set; }
         public double SoLuong { get; set; }
