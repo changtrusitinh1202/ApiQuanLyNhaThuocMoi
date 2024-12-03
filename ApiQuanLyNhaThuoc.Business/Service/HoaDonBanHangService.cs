@@ -96,6 +96,8 @@ namespace ApiQuanLyNhaThuoc.Business.Service
           
         }
 
+      
+
         public void AddHoaDonBanHangOnline(string token, HoaDonBanHang hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
         {
             string content = "";
@@ -146,7 +148,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var hoaDonCoThue = hoaDonBanHang.TongTien + (hoaDonBanHang.TongTien * (decimal)hoaDonBanHang.Thue);
 
-            if(hoaDonBanHang.TongTien <= 10000)
+            if (hoaDonBanHang.TongTien <= 10000)
                 throw new Exception("Giao hàng online không hỗ trợ giao các hóa đơn nhỏ hơn 10.000 đ");
 
             CallGHTKApi(hoaDonBanHang, out content, out freeShip, giaoHangDTO, chiTietHoaDonDTOs);
@@ -196,10 +198,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được đặt"
             });
-    
-            
+
+
             db.HoaDonBanHang.Add(hoaDonBanHang);
-          //  db.SaveChanges();
+            db.SaveChanges();
 
 
 
