@@ -54,7 +54,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonBanHang.Id = GenerateId.TaoMaHoaDonBanHang();
             hoaDonBanHang.CreatedDate = DateTime.Now;
             hoaDonBanHang.ModifiedDate = DateTime.Now;
+            hoaDonBanHang.LoaiHoaDon = "Tại quầy";
             hoaDonBanHang.KhuyenMaiId = null;
+            hoaDonBanHang.GiaoHangId = null;
+            hoaDonBanHang.Timeline = null;
             hoaDonBanHang.NhanVienId = nhanVienId;
 
             List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
@@ -90,10 +93,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             db.HoaDonBanHang.Add(hoaDonBanHang);
             db.SaveChanges();
-            //SendMailConfirm(hoaDonBanHang);
+          
         }
 
-        public void AddHoaDonBanHangOnline(string token,  HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
+        public void AddHoaDonBanHangOnline(string token, HoaDonBanHang hoaDonBanHang, GiaoHangDTO giaoHangDTO) // khách hàng mua online và có tài khoản
         {
             string content = "";
             int freeShip = 0;
@@ -103,6 +106,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             hoaDonBanHang.CreatedDate = DateTime.Now; // ngày tạo hóa đơn
             hoaDonBanHang.ModifiedDate = DateTime.Now;
             hoaDonBanHang.HinhThucMuaHang = "Online";
+            hoaDonBanHang.LoaiHoaDon = "Online";
             hoaDonBanHang.TrangThaiDonHang = TrangThai.ChoXacNhan;
             hoaDonBanHang.KhuyenMaiId = null; // không có mã khuyến mãi
             hoaDonBanHang.NhanVienId = null; // không có nhân viên
@@ -119,7 +123,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 hoaDonBanHang.TrangThaiThanhToan = "Chưa thanh toán";
             }
 
-            List<ChiTietHoaDonBanHangOnline> chiTiets = new List<ChiTietHoaDonBanHangOnline>();
+            List<ChiTietHoaDonBanHang> chiTiets = new List<ChiTietHoaDonBanHang>();
             List<ChiTietHoaDonDTO> chiTietHoaDonDTOs = new List<ChiTietHoaDonDTO>();
             foreach (var chiTiet in hoaDonBanHang.ChiTietHoaDonBanHangs)
             {
@@ -187,33 +191,33 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             hoaDonBanHang.Timeline.Add(new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonBanHang.Id,
-                Status = "Đã đặt",
+                HoaDonBanHangId = hoaDonBanHang.Id,
+                Status = "Chờ xác nhận",
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được đặt"
             });
     
             
-            db.HoaDonBanHangOnline.Add(hoaDonBanHang);
-            db.SaveChanges();
+            db.HoaDonBanHang.Add(hoaDonBanHang);
+          //  db.SaveChanges();
 
 
 
 
             var khachHangId = hoaDonBanHang.KhachHangId;
-            var danhSachSanPhamTrongGio = db.GioHang
-                 .Where(g => g.KhachHangId == khachHangId)
-                 .AsEnumerable() 
-                 .Where(g => hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
-                 .ToList();
+            //var danhSachSanPhamTrongGio = db.GioHang
+            //     .Where(g => g.KhachHangId == khachHangId)
+            //     .AsEnumerable() 
+            //     .Where(g => hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
+            //     .ToList();
 
-            db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
+            //db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
             db.SaveChanges();
 
 
         }
 
-        private static void CallGHTKApi(HoaDonBanHangOnline hoaDonBanHang, out string content, out int freeShip, GiaoHangDTO giaoHangDTO, List<ChiTietHoaDonDTO> chiTietHoaDonDTOs)
+        private static void CallGHTKApi(HoaDonBanHang hoaDonBanHang, out string content, out int freeShip, GiaoHangDTO giaoHangDTO, List<ChiTietHoaDonDTO> chiTietHoaDonDTOs)
         {
             content = "";
             freeShip = 0;
@@ -228,8 +232,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 products = chiTietHoaDonDTOs.Select(p => new
                 {
                     name = p?.TenHangHoa,
-                    weight = p?.KhoiLuong,
-                    quantity = p?.SoLuong
+                    weight = p?.KhoiLuong
                 }).ToList(),
                 order = new
                 {
@@ -364,10 +367,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public void XacNhanDonHang(string hoaDonId)
         {
-            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var hoaDon = db.HoaDonBanHang.FirstOrDefault(hd => hd.Id == hoaDonId);
             var trangThaiHoaDon = new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonId,
+                HoaDonBanHangId = hoaDonId,
                 Status = TrangThai.DaXacNhan,
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được nhân viên xác nhận"
@@ -383,10 +386,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public void XacNhanChuanBiHang(string hoaDonId)
         {
-            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var hoaDon = db.HoaDonBanHang.FirstOrDefault(hd => hd.Id == hoaDonId);
             var trangThaiHoaDon = new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonId,
+                HoaDonBanHangId = hoaDonId,
                 Status = TrangThai.DangChuanBi,
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được chuẩn bị"
@@ -402,10 +405,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public void XacNhanVanChuyen(string hoaDonId)
         {
-            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var hoaDon = db.HoaDonBanHang.FirstOrDefault(hd => hd.Id == hoaDonId);
             var trangThaiHoaDon = new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonId,
+                HoaDonBanHangId = hoaDonId,
                 Status = TrangThai.DangVanChuyen,
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được giao cho đơn vị vận chuyển"
@@ -423,10 +426,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public void XacNhanDaGiaoHang(string hoaDonId)
         {
-            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var hoaDon = db.HoaDonBanHang.FirstOrDefault(hd => hd.Id == hoaDonId);
             var trangThaiHoaDon = new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonId,
+                HoaDonBanHangId = hoaDonId,
                 Status = TrangThai.DaGiaoHang,
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được giao thành công"
@@ -435,6 +438,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             if (hoaDon != null && hoaDon.TrangThaiDonHang == TrangThai.DangVanChuyen)
             {
                 hoaDon.TrangThaiDonHang = TrangThai.DaGiaoHang;
+                hoaDon.TrangThaiThanhToan = TrangThai.DaThanhToan;
                 db.TrangThaiHoaDonOnline.Add(trangThaiHoaDon);
                 db.SaveChanges();
             }
@@ -442,10 +446,10 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
         public void XacNhanHuyDonHang(string hoaDonId)
         {
-            var hoaDon = db.HoaDonBanHangOnline.FirstOrDefault(hd => hd.Id == hoaDonId);
+            var hoaDon = db.HoaDonBanHang.FirstOrDefault(hd => hd.Id == hoaDonId);
             var trangThaiHoaDon = new TrangThaiHoaDonOnline
             {
-                HoaDonBanHangOnlineId = hoaDonId,
+                HoaDonBanHangId = hoaDonId,
                 Status = TrangThai.DaHuy,
                 ThoiGian = DateTime.Now,
                 GhiChu = "Đơn hàng đã được hủy"
@@ -471,75 +475,84 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             }
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangs()
+        public List<HoaDonBanHang> GetHoaDonBanHangTaiQuay()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()             
-                .Include(g => g.GiaoHang)
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
+                .Where(hd => hd.HinhThucMuaHang == "Tại quầy")
                 .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChoXacNhan()
+        public List<HoaDonBanHang> GetHoaDonBanHangs()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()             
+                .Include(g => g.GiaoHang)
+                .Where(hd => hd.HinhThucMuaHang == "Online")
+                .ToList();
+            return hoaDons;
+        }
+
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineChoXacNhan()
+        {
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
                 .Include(kh => kh.KhachHang)
                 .Include(g => g.GiaoHang)
-                .Where(hd => hd.TrangThaiDonHang == TrangThai.ChoXacNhan)
+                .Where(hd => hd.TrangThaiDonHang == TrangThai.ChoXacNhan && hd.HinhThucMuaHang == "Online")
                 .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineXacNhanDon()
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineXacNhanDon()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
              .Include(kh => kh.KhachHang)
              .Include(g => g.GiaoHang)
-             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaXacNhan)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaXacNhan && hd.HinhThucMuaHang == "Online")
              .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChuanBiHang()
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineChuanBiHang()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
              .Include(kh => kh.KhachHang)
              .Include(g => g.GiaoHang)
-             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangChuanBi)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangChuanBi && hd.HinhThucMuaHang == "Online")
              .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineVanChuyen()
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineVanChuyen()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
              .Include(kh => kh.KhachHang)
              .Include(g => g.GiaoHang)
-             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangVanChuyen)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DangVanChuyen && hd.HinhThucMuaHang == "Online")
              .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaGiao()
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineDaGiao()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
              .Include(kh => kh.KhachHang)
              .Include(g => g.GiaoHang)
-             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaGiaoHang)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaGiaoHang && hd.HinhThucMuaHang == "Online")
              .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineHuyDon()
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineHuyDon()
         {
-            List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+            List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
              .Include(kh => kh.KhachHang)
              .Include(g => g.GiaoHang)
-             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaHuy)
+             .Where(hd => hd.TrangThaiDonHang == TrangThai.DaHuy && hd.HinhThucMuaHang == "Online")
              .ToList();
             return hoaDons;
         }
 
-        public List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineOfKhachHang(string token)
+        public List<HoaDonBanHang> GetHoaDonBanHangOnlineOfKhachHang(string token)
         {
             KhachHangDTO khachHangDTO = KhachHangService.GetKhachHangByToken(token);
             if(khachHangDTO == null)
@@ -548,24 +561,38 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             }
             else
             {
-                List<HoaDonBanHangOnline> hoaDons = db.HoaDonBanHangOnline.AsNoTracking()
+                List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
                   .Include(kh => kh.KhachHang)
-                  .Include(g => g.GiaoHang)
-                  .Where(hd => hd.KhachHangId == khachHangDTO.Id)
+                  .Include(g => g.GiaoHang) 
+                  .Where(hd => hd.KhachHangId == khachHangDTO.Id && hd.HinhThucMuaHang == "Online")
                   .ToList();
                 return hoaDons;
             }
          
         }
 
-        public HoaDonBanHangOnline GetHoaDonBanHangOnlineById(string hoaDonId)
+        public HoaDonBanHang GetHoaDonBanHangOfflineById(string hoaDonId)
         {
-            HoaDonBanHangOnline? hoaDonBanHangOnline = db.HoaDonBanHangOnline
+            HoaDonBanHang? hoaDonBanHang = db.HoaDonBanHang
+                .Include(kh => kh.KhachHang)
+                .Include(nv => nv.NhanVien)
+                .ThenInclude(u => u.AppUser)
+                .Include(ct => ct.ChiTietHoaDonBanHangs)
+                .ThenInclude(p => p.PhienBanSanPham)
+                .Where(predicate => predicate.HinhThucMuaHang == "Tại quầy")
+                .FirstOrDefault(hd => hd.Id == hoaDonId);
+            return hoaDonBanHang;
+        }
+
+        public HoaDonBanHang GetHoaDonBanHangOnlineById(string hoaDonId)
+        {
+            HoaDonBanHang? hoaDonBanHangOnline = db.HoaDonBanHang
                 .Include(kh => kh.KhachHang)
                 .Include(g => g.GiaoHang)
                 .Include(ct => ct.ChiTietHoaDonBanHangs)
                 .ThenInclude(p => p.PhienBanSanPham)
                 .Include(time => time.Timeline)
+                .Where(predicate => predicate.HinhThucMuaHang == "Online")
                 .FirstOrDefault(hd => hd.Id == hoaDonId);
             return hoaDonBanHangOnline;
         }

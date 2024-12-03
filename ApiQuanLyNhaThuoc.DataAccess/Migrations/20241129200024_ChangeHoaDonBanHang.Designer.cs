@@ -4,6 +4,7 @@ using ApiQuanLyNhaThuoc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241129200024_ChangeHoaDonBanHang")]
+    partial class ChangeHoaDonBanHang
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,49 +143,49 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "DM111",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2778),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6465),
                             MoTa = "Thuốc dị ứng",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2789),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6475),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM112",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2792),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6477),
                             MoTa = "Thuốc da liễu",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2792),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6477),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM113",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2794),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6479),
                             MoTa = "Thuốc hô hấp",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2794),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6479),
                             TenDanhMuc = "Thuốc"
                         },
                         new
                         {
                             Id = "DM114",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2795),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6480),
                             MoTa = "Vitamin & Khoáng chất",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2796),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6481),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM115",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2797),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6482),
                             MoTa = "Hỗ trợ làm đẹp",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2797),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6483),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         },
                         new
                         {
                             Id = "DM116",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2798),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6484),
                             MoTa = "Dinh dưỡng",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(2799),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6484),
                             TenDanhMuc = "Thực phẩm chứng năng"
                         });
                 });
@@ -277,10 +280,10 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "NCC001",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(3036),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6669),
                             DiaChi = "123 Lê Lợi",
                             Email = "longchaugv@gmail.com",
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(3038),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6670),
                             QuocGia = "Việt Nam",
                             SoDienThoai = "0123456789",
                             TenNhaCungCap = "Nhà thuốc Long Châu",
@@ -1033,8 +1036,8 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         new
                         {
                             Id = "KHO001",
-                            CreatedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(3072),
-                            ModifiedDate = new DateTime(2024, 11, 30, 18, 39, 53, 841, DateTimeKind.Local).AddTicks(3073),
+                            CreatedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6730),
+                            ModifiedDate = new DateTime(2024, 11, 30, 3, 0, 23, 262, DateTimeKind.Local).AddTicks(6730),
                             ViTriLuuTru = "Chi nhánh mặc định"
                         });
                 });
@@ -1175,10 +1178,10 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HoaDonBanHangId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("HoaDonBanHangOnlineId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Status")
@@ -1226,31 +1229,31 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "df93d03c-b89b-438a-93fe-4791c053b0ef",
+                            Id = "c1e8cc9b-7193-4a78-9c2d-cfa43694cb1e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "c111b536-11be-48f2-b70e-5a1078077a9c",
+                            Id = "f34a5c04-bd92-4a85-8f57-9e980108810f",
                             Name = "Employee POS",
                             NormalizedName = "EMPLOYEE POS"
                         },
                         new
                         {
-                            Id = "870729ca-54d4-46ab-b800-06253f90a51d",
+                            Id = "2da28aa4-14ec-40e1-ad6d-110c07e6a856",
                             Name = "Employee Manager",
                             NormalizedName = "EMPLOYEE MANAGER"
                         },
                         new
                         {
-                            Id = "a4f03907-61be-4b22-b47d-b3ea028c9bd9",
+                            Id = "89d68bdf-0205-4ed2-9491-7d479989ec65",
                             Name = "Employee Online",
                             NormalizedName = "EMPLOYEE ONLINE"
                         },
                         new
                         {
-                            Id = "8c217271-4033-449c-93da-5f13821d4f6d",
+                            Id = "b68159e4-0b3a-4a39-9a1d-6ac4616b0d91",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -1708,17 +1711,17 @@ namespace ApiQuanLyNhaThuoc.DataAccess.Migrations
 
             modelBuilder.Entity("ApiQuanLyNhaThuoc.Models.Models.Entities.TrangThaiHoaDonOnline", b =>
                 {
-                    b.HasOne("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonBanHang", "HoaDonBanHang")
+                    b.HasOne("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonBanHang", null)
                         .WithMany("Timeline")
-                        .HasForeignKey("HoaDonBanHangId")
+                        .HasForeignKey("HoaDonBanHangId");
+
+                    b.HasOne("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonBanHangOnline", "HoaDonBanHangOnline")
+                        .WithMany("Timeline")
+                        .HasForeignKey("HoaDonBanHangOnlineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApiQuanLyNhaThuoc.Models.Models.Entities.HoaDonBanHangOnline", null)
-                        .WithMany("Timeline")
-                        .HasForeignKey("HoaDonBanHangOnlineId");
-
-                    b.Navigation("HoaDonBanHang");
+                    b.Navigation("HoaDonBanHangOnline");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -176,7 +176,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
             var today = DateTime.UtcNow.AddHours(7).Date;
 
-            var result = db.HoaDonBanHang
+            var result = db.HoaDonBanHangOnline
                 .Where(h => (h.TrangThaiDonHang == TrangThai.HoanThanh ||
                              h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
                              h.TrangThaiDonHang == TrangThai.DangVanChuyen) &&
@@ -336,7 +336,27 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 })
                 .FirstOrDefaultAsync() ?? new KetQuaTrangThaiHoaDon();
 
-            return result;
+            var result2 = await db.HoaDonBanHangOnline
+            .Where(h => (h.TrangThaiDonHang == TrangThai.HoanThanh ||
+                         h.TrangThaiDonHang == TrangThai.ChoXacNhan ||
+                         h.TrangThaiDonHang == TrangThai.DangVanChuyen) &&
+                         h.ModifiedDate >= startOfMonth && h.ModifiedDate <= endOfMonth)
+            .GroupBy(h => 1)
+            .Select(g => new KetQuaTrangThaiHoaDon
+            {
+                SoLuongHoanThanh = g.Count(h => h.TrangThaiDonHang == TrangThai.HoanThanh),
+                SoLuongDangXuLy = g.Count(h => h.TrangThaiDonHang == TrangThai.ChoXacNhan),
+                SoLuongDangVanChuyen = g.Count(h => h.TrangThaiDonHang == TrangThai.DangVanChuyen)
+            })
+            .FirstOrDefaultAsync() ?? new KetQuaTrangThaiHoaDon();
+
+            return new KetQuaTrangThaiHoaDon
+            {
+                SoLuongHoanThanh = result.SoLuongHoanThanh + result2.SoLuongHoanThanh,
+                SoLuongDangXuLy = result.SoLuongDangXuLy + result2.SoLuongDangXuLy,
+                SoLuongDangVanChuyen = result.SoLuongDangVanChuyen + result2.SoLuongDangVanChuyen
+            };
+
         }
 
         public async Task<List<KetQuaHoaDonMoiNgay>> GetTongTienTheoNgayTrongThangNay()

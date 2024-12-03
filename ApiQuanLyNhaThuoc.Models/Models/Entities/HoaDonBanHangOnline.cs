@@ -73,7 +73,7 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
             {
                 Status = status,
                 ThoiGian = DateTime.Now,
-                HoaDonBanHangOnlineId = this.Id 
+                HoaDonBanHangId = this.Id 
             });
         }
     }

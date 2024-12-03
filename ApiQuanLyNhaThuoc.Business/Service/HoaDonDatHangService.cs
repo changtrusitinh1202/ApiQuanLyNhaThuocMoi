@@ -24,13 +24,14 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             this.db = db;
             this.phienBanSanPhamService = phienBanSanPhamService;
         }
-        public void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang)
+        public void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang, string nhanVienId)
         {
             hoaDonDatHang.Id = GenerateId.TaoMaHoaDonDatHang();
             hoaDonDatHang.TrangThaiNhap = TrangThai.ChuaNhap;
             hoaDonDatHang.NgayTao = DateTime.Now;
             hoaDonDatHang.CreatedDate = DateTime.Now;
             hoaDonDatHang.ModifiedDate = DateTime.Now;
+            hoaDonDatHang.NhanVienId = nhanVienId;
   
             foreach(var chiTiet in hoaDonDatHang.ChiTietHoaDonDatHangs)
             {

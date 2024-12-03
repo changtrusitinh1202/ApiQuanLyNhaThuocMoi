@@ -10,7 +10,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
 {
     public interface IHoaDonDatHangService
     {
-        void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang);
+        void AddHoaDonDatHang(HoaDonDatHang hoaDonDatHang, string nhanVienId);
         HoaDonDatHang GetHoaDonDatHangById(string guid);
         void CapNhatTrangThaiDonDatHang(string hoaDonDatHangId, string trangThai);
         void CapNhatSoLuongNhapDonDatHang(string chiTietHoaDonDatHangId, double soLuongNhap);

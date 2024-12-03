@@ -18,18 +18,18 @@ namespace ApiQuanLyNhaThuoc.Controllers
             this.db = db;
         }
 
-        [HttpPost("AddHoaDon")]
-        public IActionResult AddHoaDon([FromBody] HoaDonDatHang hoaDonDatHang)
-        {
+        //[HttpPost("AddHoaDon")]
+        //public IActionResult AddHoaDon([FromBody] HoaDonDatHang hoaDonDatHang)
+        //{
 
-            if (ModelState.IsValid)
-            {
-                hoaDonDatHangService.AddHoaDonDatHang(hoaDonDatHang);
-                return Ok(hoaDonDatHang);
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        hoaDonDatHangService.AddHoaDonDatHang(hoaDonDatHang);
+        //        return Ok(hoaDonDatHang);
+        //    }
 
-            return BadRequest(ModelState);
-        }
+        //    return BadRequest(ModelState);
+        //}
 
         [HttpGet("GetHoaDonDatHang/{hoaDonDatHangId}")]
         public IActionResult GetHoaDonDatHang(string hoaDonDatHangId)

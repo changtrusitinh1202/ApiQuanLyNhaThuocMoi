@@ -9,13 +9,13 @@ namespace ApiQuanLyNhaThuoc.Models.Models.ViewModel
 {
     public class HoaDonBanHangOnlineVM
     {
-        public List<HoaDonBanHangOnline> HoaDonBanHangs { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangChoXacNhan { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangXacNhanDon { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangChuanBiHang { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangVanChuyen { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangDaGiao { get; set; }
-        public List<HoaDonBanHangOnline> HoaDonBanHangHuyDon { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangs { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangChoXacNhan { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangXacNhanDon { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangChuanBiHang { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangVanChuyen { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangDaGiao { get; set; }
+        public List<HoaDonBanHang> HoaDonBanHangHuyDon { get; set; }
 
     }
 }

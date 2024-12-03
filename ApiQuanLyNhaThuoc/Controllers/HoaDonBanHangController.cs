@@ -2,7 +2,9 @@
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
+using ApiQuanLyNhaThuoc.Utility.Hubs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 
@@ -13,12 +15,17 @@ namespace ApiQuanLyNhaThuoc.Controllers
     {
         public IHoaDonBanHangService hoaDonBanHangService;
         public ITongQuanService tongQuanService;
+        private readonly IHubContext<ThongBaoHub> _hubContext;
         ApplicationDbContext db;
-        public HoaDonBanHangController(IHoaDonBanHangService hoaDonBanHangService, ITongQuanService tongQuanService, ApplicationDbContext db)
+        public HoaDonBanHangController(IHoaDonBanHangService hoaDonBanHangService,
+            IHubContext<ThongBaoHub> hubContext,
+            ITongQuanService tongQuanService, 
+            ApplicationDbContext db)
         {
             this.hoaDonBanHangService = hoaDonBanHangService;
             this.tongQuanService = tongQuanService;
             this.db = db;
+            _hubContext = hubContext;
         }
 
 
@@ -34,7 +41,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
         }
 
         [HttpPost("AddHoaDonBanHangOnline")]
-        public IActionResult AddHoaDonBanHangOnline([FromBody] HoaDonBanHangOnline hoaDonBanHang, string token,GiaoHangDTO giaoHang)
+        public async Task<IActionResult> AddHoaDonBanHangOnline([FromBody] HoaDonBanHang hoaDonBanHang, string token,GiaoHangDTO giaoHang)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +51,8 @@ namespace ApiQuanLyNhaThuoc.Controllers
             try
             {
                 hoaDonBanHangService.AddHoaDonBanHangOnline(token ,hoaDonBanHang, giaoHang);
-
+                string message = "Bạn có hóa đơn bán hàng mới";
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Hyuy", message);
                 return Ok(hoaDonBanHang);
             }
             catch (Exception ex)
@@ -185,7 +193,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
             try
             {
-                List<HoaDonBanHangOnline> hoaDons =  hoaDonBanHangService.GetHoaDonBanHangOnlineOfKhachHang(token);
+                List<HoaDonBanHang> hoaDons =  hoaDonBanHangService.GetHoaDonBanHangOnlineOfKhachHang(token);
                 return Ok(hoaDons);
             }
             catch (Exception ex)
@@ -205,7 +213,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
             try
             {
-                HoaDonBanHangOnline hoaDon = hoaDonBanHangService.GetHoaDonBanHangOnlineById(hoaDonId);
+                HoaDonBanHang hoaDon = hoaDonBanHangService.GetHoaDonBanHangOnlineById(hoaDonId);
                 return Ok(hoaDon);
             }
             catch (Exception ex)

@@ -47,14 +47,34 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Required]
         public decimal ThanhTien { get; set; }
 
+        public string? LoaiHoaDon { get; set; }
+
+        public decimal? PhiVanChuyen { get; set; }
+
         public bool? DungTichDiem { get; set; }
 
         public decimal? SoDiemTichLuyDung { get; set; }
 
-        public string? GhiChu { get; set; }
+        public string? GhiChu { get; set; } 
 
         public ICollection<ChiTietHoaDonBanHang> ChiTietHoaDonBanHangs { get; set; }
 
+        [ForeignKey("GiaoHang")]
+        [ValidateNever]
+        public string? GiaoHangId { get; set; }
+        public GiaoHang? GiaoHang { get; set; }
 
+        public List<TrangThaiHoaDonOnline>? Timeline { get; set; }
+
+
+        public void AddTimelineStatus(string status)
+        {
+            Timeline.Add(new TrangThaiHoaDonOnline
+            {
+                Status = status,
+                ThoiGian = DateTime.Now,
+                HoaDonBanHangId = this.Id
+            });
+        }
     }
 }

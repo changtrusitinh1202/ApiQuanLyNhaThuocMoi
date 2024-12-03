@@ -14,6 +14,7 @@ using AspNetCore.Swagger.Themes;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ApiQuanLyNhaThuoc.Utility;
 using ApiQuanLyNhaThuoc.Models.Models.Security;
+using ApiQuanLyNhaThuoc.Utility.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -108,6 +109,19 @@ builder.Services.AddScoped<IDiaChiKhachHangService, DiaChiKhachHangService>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWT"));
 builder.Services.AddSingleton<JwtTokenProvider>();
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins("http://localhost:5001") // Địa chỉ của MVC
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // Quan trọng: Cho phép cookie/credentials
+    });
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 {
@@ -144,6 +158,7 @@ app.UseCors("AllowAll");
 app.UseRouting();
 
 app.UseAuthorization();
+app.MapHub<ThongBaoHub>("/thongBaoHub");
 
 app.MapControllerRoute(
     name: "default",

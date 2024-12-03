@@ -11,16 +11,20 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
     public interface IHoaDonBanHangService
     {
         void AddHoaDonBanHangTrucTiep(HoaDonBanHang hoaDonBanHang, string nhanVienId);
-        void AddHoaDonBanHangOnline(string token, HoaDonBanHangOnline hoaDonBanHang, GiaoHangDTO giaoHangDTO);
+        void AddHoaDonBanHangOnline(string token, HoaDonBanHang hoaDonBanHang, GiaoHangDTO giaoHangDTO);
         HoaDonBanHang GetHoaDonBanHangById(string id);
 
-        List<HoaDonBanHangOnline> GetHoaDonBanHangs();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChoXacNhan();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineXacNhanDon();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineChuanBiHang();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineVanChuyen();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineDaGiao();
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineHuyDon();
+        HoaDonBanHang GetHoaDonBanHangOfflineById(string hoaDonId);
+
+
+        List<HoaDonBanHang> GetHoaDonBanHangTaiQuay();
+        List<HoaDonBanHang> GetHoaDonBanHangs();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineChoXacNhan();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineXacNhanDon();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineChuanBiHang();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineVanChuyen();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineDaGiao();
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineHuyDon();
 
         void XacNhanDonHang(string hoaDonId);
         void XacNhanChuanBiHang(string hoaDonId);
@@ -28,9 +32,9 @@ namespace ApiQuanLyNhaThuoc.Business.Service.IService
         void XacNhanDaGiaoHang(string hoaDonId);
         void XacNhanHuyDonHang(string hoaDonId);
 
-        List<HoaDonBanHangOnline> GetHoaDonBanHangOnlineOfKhachHang(string token);
+        List<HoaDonBanHang> GetHoaDonBanHangOnlineOfKhachHang(string token);
 
-        HoaDonBanHangOnline GetHoaDonBanHangOnlineById(string hoaDonId);
+        HoaDonBanHang GetHoaDonBanHangOnlineById(string hoaDonId);
         void SendMailConfirm(HoaDonBanHang hoaDonBanHang);
     }
 }

@@ -14,11 +14,11 @@ namespace ApiQuanLyNhaThuoc.Models.Models.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [ForeignKey("HoaDonBanHangOnline")]
+        [ForeignKey("HoaDonBanHang")]
         [Required]
-        public string?  HoaDonBanHangOnlineId { get; set; }
+        public string?  HoaDonBanHangId { get; set; }
         [JsonIgnore]
-        public HoaDonBanHangOnline? HoaDonBanHangOnline { get; set; }
+        public HoaDonBanHang? HoaDonBanHang { get; set; }
         public string Status { get; set; }
         [Required]
         public DateTime ThoiGian { get; set; }  
