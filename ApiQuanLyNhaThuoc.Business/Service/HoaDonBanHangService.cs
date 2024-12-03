@@ -205,13 +205,13 @@ namespace ApiQuanLyNhaThuoc.Business.Service
 
 
             var khachHangId = hoaDonBanHang.KhachHangId;
-            //var danhSachSanPhamTrongGio = db.GioHang
-            //     .Where(g => g.KhachHangId == khachHangId)
-            //     .AsEnumerable() 
-            //     .Where(g => hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
-            //     .ToList();
+            var danhSachSanPhamTrongGio = db.GioHang
+                 .Where(g => g.KhachHangId == khachHangId)
+                 .AsEnumerable()
+                 .Where(g => hoaDonBanHang.ChiTietHoaDonBanHangs.Any(h => h.PhienBanSanPhamId == g.PhienBanSanPhamId))
+                 .ToList();
 
-            //db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
+            db.GioHang.RemoveRange(danhSachSanPhamTrongGio);
             db.SaveChanges();
 
 
