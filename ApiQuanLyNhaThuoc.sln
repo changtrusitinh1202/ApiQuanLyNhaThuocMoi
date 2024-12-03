@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.Models", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.DataAccess", "ApiQuanLyNhaThuoc.DataAccess\ApiQuanLyNhaThuoc.DataAccess.csproj", "{01F83936-B032-4813-9F2F-B2386B9E6F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQuanLyNhaThuoc.Utility", "ApiQuanLyNhaThuoc.Utility\ApiQuanLyNhaThuoc.Utility.csproj", "{07CE349A-620B-436E-80DA-F8A3054B727F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiQuanLyNhaThuoc.Utility", "ApiQuanLyNhaThuoc.Utility\ApiQuanLyNhaThuoc.Utility.csproj", "{07CE349A-620B-436E-80DA-F8A3054B727F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiQuanLyNhaThuoc.Notification", "ApiQuanLyNhaThuoc.Notification\ApiQuanLyNhaThuoc.Notification.csproj", "{0A6D6D15-6B4B-41A1-AEAA-4E65081816AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{07CE349A-620B-436E-80DA-F8A3054B727F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07CE349A-620B-436E-80DA-F8A3054B727F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07CE349A-620B-436E-80DA-F8A3054B727F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A6D6D15-6B4B-41A1-AEAA-4E65081816AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A6D6D15-6B4B-41A1-AEAA-4E65081816AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A6D6D15-6B4B-41A1-AEAA-4E65081816AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A6D6D15-6B4B-41A1-AEAA-4E65081816AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
