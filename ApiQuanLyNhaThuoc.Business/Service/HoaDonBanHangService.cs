@@ -599,6 +599,22 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             return hoaDonBanHangOnline;
         }
 
-      
+        public List<HoaDonBanHang> GetAllHoaDonBanHangOfKhachHang(string token)
+        {
+            KhachHangDTO khachHangDTO = KhachHangService.GetKhachHangByToken(token);
+            if (khachHangDTO == null)
+            {
+                throw new Exception("Không tìm thấy khách hàng");
+            }
+            else
+            {
+                List<HoaDonBanHang> hoaDons = db.HoaDonBanHang.AsNoTracking()
+                  .Include(kh => kh.KhachHang)
+                  .Include(g => g.GiaoHang)
+                  .Where(hd => hd.KhachHangId == khachHangDTO.Id)
+                  .ToList();
+                return hoaDons;
+            }
+        }
     }
 }

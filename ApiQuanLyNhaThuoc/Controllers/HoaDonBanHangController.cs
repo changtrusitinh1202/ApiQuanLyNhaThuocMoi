@@ -2,7 +2,7 @@
 using ApiQuanLyNhaThuoc.DataAccess.Data;
 using ApiQuanLyNhaThuoc.Models.Models.DTOs;
 using ApiQuanLyNhaThuoc.Models.Models.Entities;
-using ApiQuanLyNhaThuoc.Utility.Hubs;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
@@ -15,17 +15,17 @@ namespace ApiQuanLyNhaThuoc.Controllers
     {
         public IHoaDonBanHangService hoaDonBanHangService;
         public ITongQuanService tongQuanService;
-        private readonly IHubContext<ThongBaoHub> _hubContext;
+       // private readonly IHubContext<ThongBaoHub> _hubContext;
         ApplicationDbContext db;
         public HoaDonBanHangController(IHoaDonBanHangService hoaDonBanHangService,
-            IHubContext<ThongBaoHub> hubContext,
+           // IHubContext<ThongBaoHub> hubContext,
             ITongQuanService tongQuanService, 
             ApplicationDbContext db)
         {
             this.hoaDonBanHangService = hoaDonBanHangService;
             this.tongQuanService = tongQuanService;
             this.db = db;
-            _hubContext = hubContext;
+           // _hubContext = hubContext;
         }
 
 
@@ -52,7 +52,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
             {
                 hoaDonBanHangService.AddHoaDonBanHangOnline(token ,hoaDonBanHang, giaoHang);
                 string message = "Bạn có hóa đơn bán hàng mới";
-                await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Hyuy", message);
+                //await _hubContext.Clients.All.SendAsync("ReceiveMessage", "Hyuy", message);
                 return Ok(hoaDonBanHang);
             }
             catch (Exception ex)
@@ -193,7 +193,7 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
             try
             {
-                List<HoaDonBanHang> hoaDons =  hoaDonBanHangService.GetHoaDonBanHangOnlineOfKhachHang(token);
+                List<HoaDonBanHang> hoaDons =  hoaDonBanHangService.GetAllHoaDonBanHangOfKhachHang(token);
                 return Ok(hoaDons);
             }
             catch (Exception ex)
@@ -202,6 +202,26 @@ namespace ApiQuanLyNhaThuoc.Controllers
             }
 
         }
+
+        //[HttpGet("GetAllHoaDonBanHangByTokenKhachHang")]
+        //public IActionResult GetAllHoaDonBanHangByTokenKhachHang(string token)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    try
+        //    {
+        //        List<HoaDonBanHang> hoaDons = hoaDonBanHangService.GetAllHoaDonBanHangOfKhachHang(token);
+        //        return Ok(hoaDons);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest("Bạn chưa có đơn hàng nào");
+        //    }
+
+        //}
 
         [HttpGet("GetHoaDonBanHangOnlineByID")]
         public IActionResult GetHoaDonBanHangOnlineByID(string hoaDonId)

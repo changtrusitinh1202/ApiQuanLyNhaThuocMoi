@@ -1,5 +1,6 @@
 ﻿using ApiQuanLyNhaThuoc.Models.Models.Entities;
 using ApiQuanLyNhaThuoc.Notification.Hubs;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ namespace ApiQuanLyNhaThuoc.NotificationSubscribeTableDependency
     public class SubscribeHoaDonTableDependency
     {
         SqlTableDependency<HoaDonBanHang> tableDependency;
+        private readonly IServiceScopeFactory serviceScopeFactory;
         ThongBaoHub thongBaoHub;
-
-
-        public SubscribeHoaDonTableDependency(ThongBaoHub thongBaoHub)
+        public SubscribeHoaDonTableDependency(ThongBaoHub thongBaoHub,IServiceScopeFactory serviceScopeFactory)
         {
             this.thongBaoHub = thongBaoHub;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
         public void SubscribeTableDependency()
         {
@@ -33,7 +34,10 @@ namespace ApiQuanLyNhaThuoc.NotificationSubscribeTableDependency
         {
             if (e.ChangeType != TableDependency.SqlClient.Base.Enums.ChangeType.None)
             {
-                thongBaoHub.SendHoaDons();
+                using (var scope = serviceScopeFactory.CreateScope())
+                {
+                    thongBaoHub.SendHoaDons();
+                }
             }
         }
 

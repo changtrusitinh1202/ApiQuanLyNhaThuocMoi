@@ -14,7 +14,7 @@ using AspNetCore.Swagger.Themes;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using ApiQuanLyNhaThuoc.Utility;
 using ApiQuanLyNhaThuoc.Models.Models.Security;
-using ApiQuanLyNhaThuoc.Utility.Hubs;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -158,7 +158,7 @@ app.UseCors("AllowAll");
 app.UseRouting();
 
 app.UseAuthorization();
-app.MapHub<ThongBaoHub>("/thongBaoHub");
+//app.MapHub<ThongBaoHub>("/thongBaoHub");
 
 app.MapControllerRoute(
     name: "default",
