@@ -44,7 +44,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
             sanPham.DuongDung = sanPhamDTO.DuongDung;
             sanPham.DanhMucId = sanPhamDTO.DanhMucId;
             sanPham.DanhSachPhienBan = new List<PhienBanSanPham>();
-            sanPham.AnhSanPham = "default.jpg";
+            sanPham.AnhSanPham = "https://cdn.tgdd.vn/Products/Images/6985/236751/progetic-ginkgo-biloba-750mg-h-90v-thumb01-600x600.jpg";
             sanPham.CreatedBy = "Gia Huy";
             sanPham.CreatedDate = DateTime.Now;
             sanPham.ModifiedDate = DateTime.Now;
