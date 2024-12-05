@@ -223,6 +223,26 @@ namespace ApiQuanLyNhaThuoc.Controllers
 
         //}
 
+        [HttpGet("GetHoaDonBanHangOfflineByID")]
+        public IActionResult GetHoaDonBanHangOfflineByID(string hoaDonId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                HoaDonBanHang hoaDon = hoaDonBanHangService.GetHoaDonBanHangOfflineById(hoaDonId);
+                return Ok(hoaDon);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Không tìm thấy đơn hàng");
+            }
+
+        }
+
         [HttpGet("GetHoaDonBanHangOnlineByID")]
         public IActionResult GetHoaDonBanHangOnlineByID(string hoaDonId)
         {

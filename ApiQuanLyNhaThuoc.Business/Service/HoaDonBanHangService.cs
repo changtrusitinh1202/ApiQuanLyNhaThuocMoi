@@ -594,7 +594,7 @@ namespace ApiQuanLyNhaThuoc.Business.Service
                 .Include(ct => ct.ChiTietHoaDonBanHangs)
                 .ThenInclude(p => p.PhienBanSanPham)
                 .Include(time => time.Timeline)
-                .Where(predicate => predicate.HinhThucMuaHang == "Online")
+                .Where(predicate => predicate.HinhThucMuaHang == "Online" || predicate.HinhThucMuaHang == "Tại quầy")
                 .FirstOrDefault(hd => hd.Id == hoaDonId);
             return hoaDonBanHangOnline;
         }
